@@ -8,3 +8,8 @@ type Student struct {
 	Answer   string
 	MajorNum int `gorm:"column:MajorNum"`
 }
+
+type StudentInfo struct {
+	Id       int
+	Password string
+}
