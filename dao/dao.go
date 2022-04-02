@@ -15,7 +15,7 @@ var rdb *redis.Client
 var db *gorm.DB
 
 func InitDB() (err error) {
-	dsn := "lance:yxh030714@tcp(1.14.43.76:3306)/douban?charset=utf8&parseTime=True"
+	dsn := "CSAtest:yxh030714@tcp(1.14.43.76:3306)/csatest?charset=utf8&parseTime=True"
 	// 连接数据库
 	dB, err = sql.Open("mysql", dsn)
 	if err != nil {
@@ -44,7 +44,7 @@ func InitRedis() (err error) {
 
 func InitGormDB() (err error) {
 	dB, err := gorm.Open(mysql.New(mysql.Config{
-		DSN:                      "lance:yxh030714@tcp(1.14.43.76:3306)/douban?charset=utf8mb4&parseTime=True&loc=Local", // DSN data source name
+		DSN:                      "CSAtest:yxh030714@tcp(1.14.43.76:3306)/csatest?charset=utf8mb4&parseTime=True&loc=Local", // DSN data source name
 		DefaultStringSize:        171,
 		DisableDatetimePrecision: true,
 		DontSupportRenameIndex:   true,
