@@ -88,3 +88,39 @@ func loginT(ctx *gin.Context) {
 	}
 	tool.RespSuccessfulWithData(ctx, s)
 }
+
+func tSecretSecurity(ctx *gin.Context) {
+	username := ctx.PostForm("username")
+	answer := ctx.PostForm("answer")
+	newPassword := ctx.PostForm("new_password")
+	if answer == service.GetAnswerByTName(username) {
+		l1 := len([]rune(newPassword))
+		if l1 <= 16 && l1 >= 6 { //强制规定密码小于16位并大于6位
+			//修改新密码
+			err := service.ChangeTPassword(username, newPassword)
+			if err != nil {
+				fmt.Println("change password err: ", err)
+				tool.RespInternalError(ctx)
+				return
+			}
+
+			tool.RespSuccessfulWithData(ctx, "密码正确,密码修改成功")
+			return
+		} else {
+			tool.RespErrorWithData(ctx, "密码请在6位到16位之内")
+			return
+		}
+	}
+	tool.RespErrorWithData(ctx, "答案错误")
+	return
+}
+
+func tQuestion(ctx *gin.Context) {
+	username := ctx.PostForm("username")
+	question := service.GetQuestionByTName(username)
+	if question == "" {
+		tool.RespErrorWithData(ctx, "没有此人的密保")
+		return
+	}
+	tool.RespErrorWithData(ctx, question)
+}
