@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"strconv"
 	"time"
 )
 
@@ -60,10 +61,11 @@ func registerT(ctx *gin.Context) {
 }
 
 func loginT(ctx *gin.Context) {
-	username := ctx.PostForm("username")
+	Sid := ctx.PostForm("id")
+	id, _ := strconv.Atoi(Sid)
 	password := ctx.PostForm("password")
-
-	flag, err := service.IsTPasswordCorrect(username, password)
+	username := service.GetNameByTId(id)
+	flag, err := service.IsTPasswordCorrect(id, password)
 	if err != nil {
 		fmt.Println("judge password correct err: ", err)
 		tool.RespInternalError(ctx)
@@ -76,6 +78,7 @@ func loginT(ctx *gin.Context) {
 	}
 	//jwt
 	c := model.MyClaims{
+		ID:       id,
 		Username: username,
 		Password: password,
 		StandardClaims: jwt.StandardClaims{
@@ -93,14 +96,15 @@ func loginT(ctx *gin.Context) {
 }
 
 func tSecretSecurity(ctx *gin.Context) {
-	username := ctx.PostForm("username")
+	Sid := ctx.PostForm("id")
+	id, _ := strconv.Atoi(Sid)
 	answer := ctx.PostForm("answer")
 	newPassword := ctx.PostForm("new_password")
-	if answer == service.GetAnswerByTName(username) {
+	if answer == service.GetAnswerByTId(id) {
 		l1 := len([]rune(newPassword))
 		if l1 <= 16 && l1 >= 6 { //强制规定密码小于16位并大于6位
 			//修改新密码
-			err := service.ChangeTPassword(username, newPassword)
+			err := service.ChangeTPassword(id, newPassword)
 			if err != nil {
 				fmt.Println("change password err: ", err)
 				tool.RespInternalError(ctx)
@@ -119,8 +123,9 @@ func tSecretSecurity(ctx *gin.Context) {
 }
 
 func tQuestion(ctx *gin.Context) {
-	username := ctx.PostForm("username")
-	question := service.GetQuestionByTName(username)
+	Sid := ctx.PostForm("id")
+	id, _ := strconv.Atoi(Sid)
+	question := service.GetQuestionByTId(id)
 	if question == "" {
 		tool.RespErrorWithData(ctx, "没有此人的密保")
 		return
@@ -131,13 +136,13 @@ func tQuestion(ctx *gin.Context) {
 func changeTPassword(ctx *gin.Context) {
 	oldPassword := ctx.PostForm("old_password")
 	newPassword := ctx.PostForm("new_password")
-	iUsername, _ := ctx.Get("username")
+	Iid, _ := ctx.Get("id")
 	l1 := len([]rune(newPassword))
 	if l1 <= 16 && l1 >= 6 { //强制规定密码小于16位并大于6位
-		username := iUsername.(string)
+		id := Iid.(int)
 
 		//检验旧密码是否正确
-		flag, err := service.IsTPasswordCorrect(username, oldPassword)
+		flag, err := service.IsTPasswordCorrect(id, oldPassword)
 		if err != nil {
 			fmt.Println("judge password correct err: ", err)
 			tool.RespInternalError(ctx)
@@ -150,7 +155,7 @@ func changeTPassword(ctx *gin.Context) {
 		}
 
 		//修改新密码
-		err = service.ChangeTPassword(username, newPassword)
+		err = service.ChangeTPassword(id, newPassword)
 		if err != nil {
 			fmt.Println("change password err: ", err)
 			tool.RespInternalError(ctx)

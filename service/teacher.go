@@ -10,13 +10,13 @@ func RegisterT(user model.Teacher) error {
 	return err
 }
 
-func ChangeTPassword(Name, newPassword string) error {
-	err := dao.UpdateTPassword(Name, newPassword)
+func ChangeTPassword(id int, newPassword string) error {
+	err := dao.UpdateTPassword(id, newPassword)
 	return err
 }
 
-func IsTPasswordCorrect(Name, password string) (bool, error) {
-	user, err := dao.SelectTInfoByName(Name)
+func IsTPasswordCorrect(id int, password string) (bool, error) {
+	user, err := dao.SelectTInfoById(id)
 	if err != nil {
 		return false, err
 	}
@@ -26,17 +26,22 @@ func IsTPasswordCorrect(Name, password string) (bool, error) {
 	return true, nil
 }
 
-func GetAnswerByTName(Name string) string {
-	answer := dao.SelectAnswerByTName(Name)
+func GetAnswerByTId(id int) string {
+	answer := dao.SelectAnswerByTId(id)
 	return answer
 }
 
-func GetQuestionByTName(Name string) string {
-	question := dao.SelectQuestionByTName(Name)
+func GetQuestionByTId(id int) string {
+	question := dao.SelectQuestionByTId(id)
 	return question
 }
 
 func GetIDByTInfoName(teacher model.Teacher) int {
 	id := dao.SelectIdByTInfo(teacher)
 	return id
+}
+
+func GetNameByTId(id int) string {
+	name := dao.SelectNameByTId(id)
+	return name
 }

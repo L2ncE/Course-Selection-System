@@ -10,5 +10,6 @@ type Teacher struct {
 
 type TeacherInfo struct {
 	Id       int
+	Name     string
 	Password string
 }

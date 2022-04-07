@@ -15,8 +15,8 @@ func InsertT(user model.Teacher) error {
 	return err
 }
 
-func UpdateTPassword(Name string, newPassword string) error {
-	deRes := db.Model(&model.Teacher{}).Where("Name = ?", Name).Update("Password", newPassword)
+func UpdateTPassword(id int, newPassword string) error {
+	deRes := db.Model(&model.Teacher{}).Where("Id = ?", id).Update("Password", newPassword)
 	err := deRes.Error
 	if err != nil {
 		fmt.Printf("update failed, err:%v\n", err)
@@ -25,9 +25,9 @@ func UpdateTPassword(Name string, newPassword string) error {
 	return err
 }
 
-func SelectTInfoByName(Name string) (model.TeacherInfo, error) {
+func SelectTInfoById(id int) (model.TeacherInfo, error) {
 	var user model.TeacherInfo
-	dbRes := db.Model(&model.Teacher{}).Select("id", "password").Where("Name = ?", Name).First(&user)
+	dbRes := db.Model(&model.Teacher{}).Select("name", "password").Where("Id = ?", id).First(&user)
 	err := dbRes.Error
 	if err != nil {
 		return user, err
@@ -36,15 +36,15 @@ func SelectTInfoByName(Name string) (model.TeacherInfo, error) {
 	return user, nil
 }
 
-func SelectAnswerByTName(Name string) string {
+func SelectAnswerByTId(id int) string {
 	user := model.Teacher{}
-	db.Model(&model.Teacher{}).Select("answer").Where("Name = ?", Name).Find(&user)
+	db.Model(&model.Teacher{}).Select("answer").Where("Id = ?", id).Find(&user)
 	return user.Answer
 }
 
-func SelectQuestionByTName(Name string) string {
+func SelectQuestionByTId(id int) string {
 	user := model.Teacher{}
-	db.Model(&model.Teacher{}).Select("question").Where("Name = ?", Name).Find(&user)
+	db.Model(&model.Teacher{}).Select("question").Where("Id = ?", id).Find(&user)
 	return user.Question
 }
 
@@ -52,4 +52,10 @@ func SelectIdByTInfo(user model.Teacher) int {
 	users := model.TeacherInfo{}
 	db.Model(&model.Teacher{}).Select("id").Where("Name = ? AND Password = ? AND Question = ? AND Answer = ?", user.Name, user.Password, user.Question, user.Answer).Find(&users)
 	return users.Id
+}
+
+func SelectNameByTId(id int) string {
+	user := model.Teacher{}
+	db.Model(&model.Teacher{}).Select("name").Where("Id = ?", id).Find(&user)
+	return user.Name
 }
