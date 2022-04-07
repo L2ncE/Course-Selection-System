@@ -50,10 +50,13 @@ func registerT(ctx *gin.Context) {
 			tool.RespInternalError(ctx)
 			return
 		}
-		tool.RespSuccessful(ctx)
+		id := service.GetIDByTInfoName(user)
+		tool.RespSuccessfulWithData(ctx, id)
+		return
+	} else {
+		tool.RespErrorWithData(ctx, "请将信息输入完整")
+		return
 	}
-	tool.RespErrorWithData(ctx, "请将信息输入完整")
-	return
 }
 
 func loginT(ctx *gin.Context) {
