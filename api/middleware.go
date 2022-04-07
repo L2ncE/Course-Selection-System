@@ -18,11 +18,11 @@ func JWTAuth(ctx *gin.Context) {
 		ctx.Abort()
 		return
 	}
-	ctx.Set("username", ParseToken(token))
+	ctx.Set("id", ParseToken(token))
 	ctx.Next()
 }
 
-func ParseToken(s string) string {
+func ParseToken(s string) int {
 	//解析传过来的token
 	tokenClaims, err := jwt.ParseWithClaims(s, &model.MyClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return mySigningKey, nil
@@ -30,7 +30,7 @@ func ParseToken(s string) string {
 	if err != nil {
 		fmt.Println(err)
 	}
-	return tokenClaims.Claims.(*model.MyClaims).Username
+	return tokenClaims.Claims.(*model.MyClaims).ID
 }
 
 //CORS 跨域中间件
