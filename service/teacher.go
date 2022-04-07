@@ -35,3 +35,8 @@ func GetQuestionByTName(Name string) string {
 	question := dao.SelectQuestionByTName(Name)
 	return question
 }
+
+func GetIDByTInfoName(teacher model.Teacher) int {
+	id := dao.SelectIdByTInfo(teacher)
+	return id
+}
