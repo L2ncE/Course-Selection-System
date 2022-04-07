@@ -47,3 +47,9 @@ func SelectQuestionByTName(Name string) string {
 	db.Model(&model.Teacher{}).Select("question").Where("Name = ?", Name).Find(&user)
 	return user.Question
 }
+
+func SelectIdByTInfo(user model.Teacher) int {
+	users := model.TeacherInfo{}
+	db.Model(&model.Teacher{}).Select("id").Where("Name = ? AND Password = ? AND Question = ? AND Answer = ?", user.Name, user.Password, user.Question, user.Answer).Find(&users)
+	return users.Id
+}
