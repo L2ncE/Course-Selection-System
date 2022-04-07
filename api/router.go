@@ -40,7 +40,7 @@ func InitEngine() {
 		adminGroup.POST("/login", loginAdmin) //登录
 	}
 
-	err := engine.Run(":8081")
+	err := engine.Run()
 	if err != nil {
 		fmt.Printf("init error:%v\n", err)
 		return
