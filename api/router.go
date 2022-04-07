@@ -35,6 +35,11 @@ func InitEngine() {
 		}
 	}
 
+	adminGroup := engine.Group("/admin")
+	{
+		adminGroup.POST("/login", loginAdmin) //登录
+	}
+
 	err := engine.Run(":8081")
 	if err != nil {
 		fmt.Printf("init error:%v\n", err)
