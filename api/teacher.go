@@ -42,6 +42,19 @@ func registerT(ctx *gin.Context) {
 		if l5 > 10 {
 			tool.RespErrorWithData(ctx, "昵称请在10个字以内")
 		}
+
+		flag, err := service.IsRepeatTNickName(nickname)
+		if err != nil {
+			fmt.Println("judge repeat username err: ", err)
+			tool.RespInternalError(ctx)
+			return
+		}
+
+		if flag {
+			tool.RespErrorWithData(ctx, "用户名已经存在")
+			return
+		}
+
 		user := model.Teacher{
 			Name:     username,
 			NickName: nickname,
@@ -50,13 +63,13 @@ func registerT(ctx *gin.Context) {
 			Answer:   answer,
 		}
 
-		err := service.RegisterT(user)
+		err = service.RegisterT(user)
 		if err != nil {
 			fmt.Println("register err: ", err)
 			tool.RespInternalError(ctx)
 			return
 		}
-		info := "你好," + nickname
+		info := "你好," + username
 		tool.RespSuccessfulWithData(ctx, info)
 		return
 	} else {

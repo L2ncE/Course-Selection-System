@@ -3,6 +3,7 @@ package service
 import (
 	"CSA/dao"
 	"CSA/model"
+	"gorm.io/gorm"
 )
 
 func RegisterT(user model.Teacher) error {
@@ -49,4 +50,17 @@ func GetNameByTId(id int) string {
 func GetIdByTNickName(name string) int {
 	id := dao.SelectIdByTNickName(name)
 	return id
+}
+
+func IsRepeatTNickName(username string) (bool, error) {
+	_, err := dao.SelectUserByTNickName(username)
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return false, nil
+		}
+
+		return false, err
+	}
+
+	return true, nil
 }

@@ -65,3 +65,14 @@ func SelectIdByTNickName(name string) int {
 	db.Model(&model.Teacher{}).Select("id").Where("nickname = ?", name).Find(&user)
 	return user.Id
 }
+
+func SelectUserByTNickName(Name string) (model.TeacherInfo, error) {
+	var user model.TeacherInfo
+	dbRes := db.Model(&model.Teacher{}).Select("id", "password").Where("NickName = ?", Name).First(&user)
+	err := dbRes.Error
+	if err != nil {
+		return user, err
+	}
+	fmt.Println(user)
+	return user, nil
+}
