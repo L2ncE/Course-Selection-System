@@ -7,21 +7,22 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"strconv"
 	"time"
 )
 
 func registerT(ctx *gin.Context) {
 	username := ctx.PostForm("username")
+	nickname := ctx.PostForm("nickname")
 	password := ctx.PostForm("password")
 	question := ctx.PostForm("question")
 	answer := ctx.PostForm("answer")
 	//输入信息不能为空
-	if username != "" && password != "" && question != "" && answer != "" {
+	if username != "" && password != "" && question != "" && answer != "" && nickname != "" {
 		l1 := len([]rune(username))
 		l2 := len([]rune(password))
 		l3 := len([]rune(question))
 		l4 := len([]rune(answer))
+		l5 := len([]rune(nickname))
 		if l1 > 8 || l1 < 1 {
 			tool.RespErrorWithData(ctx, "姓名请在1到8位之间")
 			return
@@ -38,8 +39,12 @@ func registerT(ctx *gin.Context) {
 			tool.RespErrorWithData(ctx, "密保答案请在16个字以内")
 			return
 		}
+		if l5 > 10 {
+			tool.RespErrorWithData(ctx, "昵称请在10个字以内")
+		}
 		user := model.Teacher{
 			Name:     username,
+			NickName: nickname,
 			Password: password,
 			Question: question,
 			Answer:   answer,
@@ -51,8 +56,8 @@ func registerT(ctx *gin.Context) {
 			tool.RespInternalError(ctx)
 			return
 		}
-		id := service.GetIDByTInfoName(user)
-		tool.RespSuccessfulWithData(ctx, id)
+		info := "你好," + nickname
+		tool.RespSuccessfulWithData(ctx, info)
 		return
 	} else {
 		tool.RespErrorWithData(ctx, "请将信息输入完整")
@@ -61,9 +66,9 @@ func registerT(ctx *gin.Context) {
 }
 
 func loginT(ctx *gin.Context) {
-	Sid := ctx.PostForm("id")
-	id, _ := strconv.Atoi(Sid)
+	nickname := ctx.PostForm("nickname")
 	password := ctx.PostForm("password")
+	id := service.GetIdByTNickName(nickname)
 	username := service.GetNameByTId(id)
 	flag, err := service.IsTPasswordCorrect(id, password)
 	if err != nil {
@@ -96,8 +101,8 @@ func loginT(ctx *gin.Context) {
 }
 
 func tSecretSecurity(ctx *gin.Context) {
-	Sid := ctx.PostForm("id")
-	id, _ := strconv.Atoi(Sid)
+	nickname := ctx.PostForm("nickname")
+	id := service.GetIdByTNickName(nickname)
 	answer := ctx.PostForm("answer")
 	newPassword := ctx.PostForm("new_password")
 	if answer == service.GetAnswerByTId(id) {
@@ -123,8 +128,8 @@ func tSecretSecurity(ctx *gin.Context) {
 }
 
 func tQuestion(ctx *gin.Context) {
-	Sid := ctx.PostForm("id")
-	id, _ := strconv.Atoi(Sid)
+	nickname := ctx.PostForm("nickname")
+	id := service.GetIdByTNickName(nickname)
 	question := service.GetQuestionByTId(id)
 	if question == "" {
 		tool.RespErrorWithData(ctx, "没有此人的密保")

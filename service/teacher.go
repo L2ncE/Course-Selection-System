@@ -36,12 +36,17 @@ func GetQuestionByTId(id int) string {
 	return question
 }
 
-func GetIDByTInfoName(teacher model.Teacher) int {
-	id := dao.SelectIdByTInfo(teacher)
-	return id
-}
+//func GetIDByTInfoName(teacher model.Teacher) int {
+//	id := dao.SelectIdByTInfo(teacher)
+//	return id
+//}
 
 func GetNameByTId(id int) string {
 	name := dao.SelectNameByTId(id)
 	return name
+}
+
+func GetIdByTNickName(name string) int {
+	id := dao.SelectIdByTNickName(name)
+	return id
 }

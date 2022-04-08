@@ -6,7 +6,7 @@ import (
 )
 
 func InsertT(user model.Teacher) error {
-	deres := db.Select("Name", "Password", "Question", "Answer").Create(&model.Teacher{Name: user.Name, Password: user.Password, Question: user.Question, Answer: user.Answer})
+	deres := db.Select("Name", "NickName", "Password", "Question", "Answer").Create(&model.Teacher{Name: user.Name, NickName: user.NickName, Password: user.Password, Question: user.Question, Answer: user.Answer})
 	err := deres.Error
 	if err != nil {
 		fmt.Printf("insert failed, err:%v\n", err)
@@ -27,7 +27,7 @@ func UpdateTPassword(id int, newPassword string) error {
 
 func SelectTInfoById(id int) (model.TeacherInfo, error) {
 	var user model.TeacherInfo
-	dbRes := db.Model(&model.Teacher{}).Select("name", "password").Where("Id = ?", id).First(&user)
+	dbRes := db.Model(&model.Teacher{}).Select("name", "nickname", "password").Where("Id = ?", id).First(&user)
 	err := dbRes.Error
 	if err != nil {
 		return user, err
@@ -48,14 +48,20 @@ func SelectQuestionByTId(id int) string {
 	return user.Question
 }
 
-func SelectIdByTInfo(user model.Teacher) int {
-	users := model.TeacherInfo{}
-	db.Model(&model.Teacher{}).Select("id").Where("Name = ? AND Password = ? AND Question = ? AND Answer = ?", user.Name, user.Password, user.Question, user.Answer).Find(&users)
-	return users.Id
-}
+//func SelectIdByTInfo(user model.Teacher) int {
+//	users := model.TeacherInfo{}
+//	db.Model(&model.Teacher{}).Select("id").Where("Name = ? AND Password = ? AND Question = ? AND Answer = ?", user.Name, user.Password, user.Question, user.Answer).Find(&users)
+//	return users.Id
+//}
 
 func SelectNameByTId(id int) string {
 	user := model.Teacher{}
 	db.Model(&model.Teacher{}).Select("name").Where("Id = ?", id).Find(&user)
 	return user.Name
+}
+
+func SelectIdByTNickName(name string) int {
+	user := model.Teacher{}
+	db.Model(&model.Teacher{}).Select("id").Where("nickname = ?", name).Find(&user)
+	return user.Id
 }
