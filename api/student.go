@@ -76,6 +76,7 @@ func registerStu(ctx *gin.Context) {
 		}
 		info := "你好," + username
 		tool.RespSuccessfulWithData(ctx, info)
+		return
 	}
 	tool.RespErrorWithData(ctx, "请将信息输入完整")
 	return
@@ -84,7 +85,7 @@ func registerStu(ctx *gin.Context) {
 func loginStu(ctx *gin.Context) {
 	nickname := ctx.PostForm("nickname")
 	password := ctx.PostForm("password")
-	id := service.GetIdByTNickName(nickname)
+	id := service.GetIdByStuNickName(nickname)
 	username := service.GetNameByStuId(id)
 	flag, err := service.IsStuPasswordCorrect(id, password)
 	if err != nil {
@@ -145,7 +146,7 @@ func stuSecretSecurity(ctx *gin.Context) {
 
 func stuQuestion(ctx *gin.Context) {
 	nickname := ctx.PostForm("nickname")
-	id := service.GetIdByTNickName(nickname)
+	id := service.GetIdByStuNickName(nickname)
 	question := service.GetQuestionByStuId(id)
 	if question == "" {
 		tool.RespErrorWithData(ctx, "没有此人的密保")
