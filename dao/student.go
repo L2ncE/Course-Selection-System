@@ -6,7 +6,7 @@ import (
 )
 
 func InsertStu(user model.Student) error {
-	deres := db.Select("Name", "Password", "Question", "Answer", "MajorNum").Create(&model.Student{Name: user.Name, Password: user.Password, Question: user.Question, Answer: user.Answer, MajorNum: user.MajorNum})
+	deres := db.Select("Name", "Password", "Question", "Answer", "MajorNum", "NickName").Create(&model.Student{Name: user.Name, Password: user.Password, Question: user.Question, Answer: user.Answer, MajorNum: user.MajorNum, NickName: user.NickName})
 	err := deres.Error
 	if err != nil {
 		fmt.Printf("insert failed, err:%v\n", err)
@@ -15,8 +15,8 @@ func InsertStu(user model.Student) error {
 	return err
 }
 
-func UpdateStuPassword(Name string, newPassword string) error {
-	deRes := db.Model(&model.Student{}).Where("Name = ?", Name).Update("Password", newPassword)
+func UpdateStuPassword(id int, newPassword string) error {
+	deRes := db.Model(&model.Student{}).Where("Id = ?", id).Update("Password", newPassword)
 	err := deRes.Error
 	if err != nil {
 		fmt.Printf("update failed, err:%v\n", err)
@@ -25,9 +25,9 @@ func UpdateStuPassword(Name string, newPassword string) error {
 	return err
 }
 
-func SelectStuInfoByName(Name string) (model.StudentInfo, error) {
+func SelectStuInfoById(id int) (model.StudentInfo, error) {
 	var user model.StudentInfo
-	dbRes := db.Model(&model.Student{}).Select("id", "password").Where("Name = ?", Name).First(&user)
+	dbRes := db.Model(&model.Student{}).Select("name", "nickname", "password").Where("Id = ?", id).First(&user)
 	err := dbRes.Error
 	if err != nil {
 		return user, err
@@ -36,14 +36,37 @@ func SelectStuInfoByName(Name string) (model.StudentInfo, error) {
 	return user, nil
 }
 
-func SelectAnswerByStuName(Name string) string {
+func SelectAnswerByStuId(id int) string {
 	user := model.Student{}
-	db.Model(&model.Student{}).Select("answer").Where("Name = ?", Name).Find(&user)
+	db.Model(&model.Student{}).Select("answer").Where("Id = ?", id).Find(&user)
 	return user.Answer
 }
 
-func SelectQuestionByStuName(Name string) string {
+func SelectQuestionByStuId(id int) string {
 	user := model.Student{}
-	db.Model(&model.Student{}).Select("question").Where("Name = ?", Name).Find(&user)
+	db.Model(&model.Student{}).Select("question").Where("Id = ?", id).Find(&user)
 	return user.Question
+}
+
+func SelectNameByStuId(id int) string {
+	user := model.Student{}
+	db.Model(&model.Student{}).Select("name").Where("Id = ?", id).Find(&user)
+	return user.Name
+}
+
+func SelectIdByStuNickName(name string) int {
+	user := model.Student{}
+	db.Model(&model.Student{}).Select("id").Where("nickname = ?", name).Find(&user)
+	return user.Id
+}
+
+func SelectUserByStuNickName(Name string) (model.StudentInfo, error) {
+	var user model.StudentInfo
+	dbRes := db.Model(&model.Student{}).Select("id", "password").Where("NickName = ?", Name).First(&user)
+	err := dbRes.Error
+	if err != nil {
+		return user, err
+	}
+	fmt.Println(user)
+	return user, nil
 }

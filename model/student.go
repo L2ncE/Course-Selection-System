@@ -3,6 +3,7 @@ package model
 type Student struct {
 	Id       int
 	Name     string
+	NickName string `gorm:"column:NickName"`
 	Password string
 	Question string
 	Answer   string
@@ -11,5 +12,7 @@ type Student struct {
 
 type StudentInfo struct {
 	Id       int
+	Name     string
+	NickName string `gorm:"column:NickName"`
 	Password string
 }
