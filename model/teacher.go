@@ -7,6 +7,7 @@ type Teacher struct {
 	Password string
 	Question string
 	Answer   string
+	Identity int
 }
 
 type TeacherInfo struct {
