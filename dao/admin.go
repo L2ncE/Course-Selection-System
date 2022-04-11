@@ -15,3 +15,13 @@ func SelectAdminByName(Name string) (model.Admin, error) {
 	fmt.Println(user)
 	return user, nil
 }
+
+func SelectIdentityById(id int) (identity int, err error) {
+	var user model.Admin
+	db.Model(&model.Admin{}).Select("identity").Where("id = ?", id).First(&user)
+	if err != nil {
+		return user.Identity, err
+	}
+	fmt.Println(user)
+	return user.Identity, nil
+}
