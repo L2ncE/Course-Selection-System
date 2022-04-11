@@ -67,3 +67,10 @@ func UpdateCourseTotal(id int, total int) error {
 	}
 	return err
 }
+
+func SelectCourse() error {
+	var Course []model.Course
+	dbRes := db.Model(&model.Course{}).Find(&Course)
+	err := dbRes.Error
+	return err
+}
