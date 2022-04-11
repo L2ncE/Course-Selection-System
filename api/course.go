@@ -9,7 +9,23 @@ import (
 	"strconv"
 )
 
+func JudgeAdmin(ctx *gin.Context) {
+	Iid, _ := ctx.Get("id")
+	id := Iid.(int)
+	flag, err := service.IsAdmin(id)
+	if err != nil {
+		fmt.Println("judge err: ", err)
+		tool.RespInternalError(ctx)
+		return
+	}
+
+	if !flag {
+		tool.RespErrorWithData(ctx, "你不是管理员，无法操作")
+		return
+	}
+}
 func registerCourse(ctx *gin.Context) {
+	JudgeAdmin(ctx)
 	name := ctx.PostForm("name")
 	credit := ctx.PostForm("credit")
 	time := ctx.PostForm("time")
