@@ -8,12 +8,5 @@
       <jdbc-url>jdbc:mysql://1.14.43.76:3306/csatest</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="douban@1.14.43.76" uuid="d4a449ec-7e47-4f0e-a5a3-0dbf8fdaf3bd">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://1.14.43.76:3306/douban</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
   </component>
 </project>
