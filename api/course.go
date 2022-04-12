@@ -68,3 +68,89 @@ func registerCourse(ctx *gin.Context) {
 	tool.RespErrorWithData(ctx, "请将信息输入完整")
 	return
 }
+
+func deleteCourse(ctx *gin.Context) {
+	JudgeAdmin(ctx)
+	Sid := ctx.Param("id")
+	id, _ := strconv.Atoi(Sid)
+	err := service.RemoveCourse(id)
+	if err != nil {
+		fmt.Println("delete err: ", err)
+		tool.RespInternalError(ctx)
+		return
+	}
+	tool.RespSuccessful(ctx)
+	return
+}
+
+func UpdateCourseTime(ctx *gin.Context) {
+	JudgeAdmin(ctx)
+	Sid := ctx.Param("id")
+	time := ctx.PostForm("time")
+	id, _ := strconv.Atoi(Sid)
+	err := service.ChangeCourseTime(id, time)
+	if err != nil {
+		fmt.Println("update err: ", err)
+		tool.RespInternalError(ctx)
+		return
+	}
+	tool.RespSuccessful(ctx)
+	return
+}
+
+func UpdateCourseCredit(ctx *gin.Context) {
+	JudgeAdmin(ctx)
+	Sid := ctx.Param("id")
+	credit := ctx.PostForm("credit")
+	id, _ := strconv.Atoi(Sid)
+	err := service.ChangeCourseCredit(id, credit)
+	if err != nil {
+		fmt.Println("update err: ", err)
+		tool.RespInternalError(ctx)
+		return
+	}
+	tool.RespSuccessful(ctx)
+	return
+}
+
+func UpdateCourseName(ctx *gin.Context) {
+	JudgeAdmin(ctx)
+	Sid := ctx.Param("id")
+	name := ctx.PostForm("name")
+	id, _ := strconv.Atoi(Sid)
+	err := service.ChangeCourseName(id, name)
+	if err != nil {
+		fmt.Println("update err: ", err)
+		tool.RespInternalError(ctx)
+		return
+	}
+	tool.RespSuccessful(ctx)
+	return
+}
+
+func UpdateCourseTotal(ctx *gin.Context) {
+	JudgeAdmin(ctx)
+	Sid := ctx.Param("id")
+	Stotal := ctx.PostForm("total")
+	id, _ := strconv.Atoi(Sid)
+	total, _ := strconv.Atoi(Stotal)
+	err := service.ChangeCourseTotal(id, total)
+	if err != nil {
+		fmt.Println("update err: ", err)
+		tool.RespInternalError(ctx)
+		return
+	}
+	tool.RespSuccessful(ctx)
+	return
+}
+
+func getAllCourse(ctx *gin.Context) {
+	err := service.GetAllCourse()
+	if err != nil {
+		fmt.Println("get err: ", err)
+		tool.RespInternalError(ctx)
+		return
+	}
+	tool.RespSuccessful(ctx)
+	return
+}
