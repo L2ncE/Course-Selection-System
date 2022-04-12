@@ -9,7 +9,8 @@ func InitEngine() {
 	engine := gin.Default()
 	engine.Use(CORS())
 
-	engine.GET("/major", searchMajor) //得到专业ID NAME 对照表
+	engine.GET("/major", searchMajor)   //得到专业ID NAME 对照表
+	engine.GET("/course", getAllCourse) //得到所有课程
 
 	studentGroup := engine.Group("/stu") //学生
 	{
@@ -40,6 +41,16 @@ func InitEngine() {
 		adminGroup.POST("/login", loginAdmin) //登录
 	}
 
+	courseGroup := engine.Group("/course")
+	{
+		courseGroup.Use(JWTAuth)
+		courseGroup.POST("/register", registerCourse)      //新增注册课程
+		courseGroup.DELETE("/:id", deleteCourse)           //删除课程
+		courseGroup.PUT("/time/:id", UpdateCourseTime)     //更新课程时间
+		courseGroup.PUT("/credit/:id", UpdateCourseCredit) //更新课程学分
+		courseGroup.PUT("/name/:id", UpdateCourseName)     //更新课程名字
+		courseGroup.PUT("/total/:id", UpdateCourseTotal)   //更新课程总人数
+	}
 	err := engine.Run(":8081")
 	if err != nil {
 		fmt.Printf("init error:%v\n", err)
