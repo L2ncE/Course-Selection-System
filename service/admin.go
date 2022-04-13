@@ -18,8 +18,13 @@ func IsAdmin(id int) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	if identity != 0 {
+	if identity != 3 {
 		return false, nil
 	}
 	return true, nil
+}
+
+func GetIdByAdminUserName(name string) int {
+	id := dao.SelectIdByAdminUserName(name)
+	return id
 }

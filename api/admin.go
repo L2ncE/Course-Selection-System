@@ -13,7 +13,7 @@ import (
 func loginAdmin(ctx *gin.Context) {
 	username := ctx.PostForm("username")
 	password := ctx.PostForm("password")
-
+	id := service.GetIdByAdminUserName(username)
 	flag, err := service.IsAdminPasswordCorrect(username, password)
 	if err != nil {
 		fmt.Println("judge password correct err: ", err)
@@ -27,6 +27,7 @@ func loginAdmin(ctx *gin.Context) {
 	}
 	//jwt
 	c := model.MyClaims{
+		ID:       id,
 		Username: username,
 		Password: password,
 		StandardClaims: jwt.StandardClaims{

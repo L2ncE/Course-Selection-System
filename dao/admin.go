@@ -25,3 +25,9 @@ func SelectIdentityById(id int) (identity int, err error) {
 	fmt.Println(user)
 	return user.Identity, nil
 }
+
+func SelectIdByAdminUserName(name string) int {
+	user := model.Admin{}
+	db.Model(&model.Admin{}).Select("id").Where("name = ?", name).Find(&user)
+	return user.Id
+}
