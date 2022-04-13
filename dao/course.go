@@ -68,9 +68,9 @@ func UpdateCourseName(id int, name string) error {
 //	return err
 //}
 
-//func SelectCourse() error {
-//	var Course []model.Course
-//	dbRes := db.Model(&model.Course{}).Find(&Course)
-//	err := dbRes.Error
-//	return err
-//}
+func SelectCourse() ([]model.Course, error) {
+	var Course []model.Course
+	dbRes := db.Model(&model.Course{}).Find(&Course)
+	err := dbRes.Error
+	return Course, err
+}

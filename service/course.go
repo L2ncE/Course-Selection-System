@@ -34,8 +34,8 @@ func ChangeCourseName(id int, name string) error {
 //	err := dao.UpdateCourseTotal(id, total)
 //	return err
 //}
-//
-//func GetAllCourse() error {
-//	err := dao.SelectCourse()
-//	return err
-//}
+
+func GetAllCourse() ([]model.Course, error) {
+	course, err := dao.SelectCourse()
+	return course, err
+}

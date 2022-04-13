@@ -134,13 +134,13 @@ func UpdateCourseName(ctx *gin.Context) {
 //	return
 //}
 
-//func getAllCourse(ctx *gin.Context) {
-//	err := service.GetAllCourse()
-//	if err != nil {
-//		fmt.Println("get err: ", err)
-//		tool.RespInternalError(ctx)
-//		return
-//	}
-//	tool.RespSuccessful(ctx)
-//	return
-//}
+func getAllCourse(ctx *gin.Context) {
+	course, err := service.GetAllCourse()
+	if err != nil {
+		fmt.Println("get err: ", err)
+		tool.RespInternalError(ctx)
+		return
+	}
+	tool.RespSuccessfulWithData(ctx, course)
+	return
+}
