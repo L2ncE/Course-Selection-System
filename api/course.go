@@ -63,7 +63,9 @@ func registerCourse(ctx *gin.Context) {
 }
 
 func deleteCourse(ctx *gin.Context) {
-	JudgeAdmin(ctx)
+	if JudgeAdmin(ctx) == false {
+		return
+	}
 	Sid := ctx.Param("id")
 	id, _ := strconv.Atoi(Sid)
 	err := service.RemoveCourse(id)
@@ -92,7 +94,9 @@ func deleteCourse(ctx *gin.Context) {
 //}
 
 func UpdateCourseCredit(ctx *gin.Context) {
-	JudgeAdmin(ctx)
+	if JudgeAdmin(ctx) == false {
+		return
+	}
 	Sid := ctx.Param("id")
 	credit := ctx.PostForm("credit")
 	id, _ := strconv.Atoi(Sid)
@@ -107,7 +111,9 @@ func UpdateCourseCredit(ctx *gin.Context) {
 }
 
 func UpdateCourseName(ctx *gin.Context) {
-	JudgeAdmin(ctx)
+	if JudgeAdmin(ctx) == false {
+		return
+	}
 	Sid := ctx.Param("id")
 	name := ctx.PostForm("name")
 	id, _ := strconv.Atoi(Sid)
