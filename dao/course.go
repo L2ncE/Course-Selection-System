@@ -8,7 +8,7 @@ import (
 //对课程的增删改查
 
 func InsertCourse(course model.Course) error {
-	deres := db.Select("Name", "Credit", "Time", "Total").Create(&model.Course{Name: course.Name, Credit: course.Credit, Time: course.Time, Total: course.Total})
+	deres := db.Select("Name", "Credit").Create(&model.Course{Name: course.Name, Credit: course.Credit})
 	err := deres.Error
 	if err != nil {
 		fmt.Printf("insert failed, err:%v\n", err)
@@ -28,15 +28,15 @@ func DeleteCourse(id int) error {
 	return err
 }
 
-func UpdateCourseTime(id int, time string) error {
-	deRes := db.Model(&model.Course{}).Where("id = ?", id).Update("Time", time)
-	err := deRes.Error
-	if err != nil {
-		fmt.Printf("update failed, err:%v\n", err)
-		return err
-	}
-	return err
-}
+//func UpdateCourseTime(id int, time string) error {
+//	deRes := db.Model(&model.Course{}).Where("id = ?", id).Update("Time", time)
+//	err := deRes.Error
+//	if err != nil {
+//		fmt.Printf("update failed, err:%v\n", err)
+//		return err
+//	}
+//	return err
+//}
 
 func UpdateCourseCredit(id int, credit string) error {
 	deRes := db.Model(&model.Course{}).Where("id = ?", id).Update("Credit", credit)
@@ -58,19 +58,19 @@ func UpdateCourseName(id int, name string) error {
 	return err
 }
 
-func UpdateCourseTotal(id int, total int) error {
-	deRes := db.Model(&model.Course{}).Where("id = ?", id).Update("Total", total)
-	err := deRes.Error
-	if err != nil {
-		fmt.Printf("update failed, err:%v\n", err)
-		return err
-	}
-	return err
-}
+//func UpdateCourseTotal(id int, total int) error {
+//	deRes := db.Model(&model.Course{}).Where("id = ?", id).Update("Total", total)
+//	err := deRes.Error
+//	if err != nil {
+//		fmt.Printf("update failed, err:%v\n", err)
+//		return err
+//	}
+//	return err
+//}
 
-func SelectCourse() error {
-	var Course []model.Course
-	dbRes := db.Model(&model.Course{}).Find(&Course)
-	err := dbRes.Error
-	return err
-}
+//func SelectCourse() error {
+//	var Course []model.Course
+//	dbRes := db.Model(&model.Course{}).Find(&Course)
+//	err := dbRes.Error
+//	return err
+//}

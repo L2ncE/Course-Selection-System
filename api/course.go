@@ -28,20 +28,12 @@ func registerCourse(ctx *gin.Context) {
 	JudgeAdmin(ctx)
 	name := ctx.PostForm("name")
 	credit := ctx.PostForm("credit")
-	time := ctx.PostForm("time")
-	total := ctx.PostForm("total")
 
 	fCredit, _ := strconv.ParseFloat(credit, 32)
-	iTotal, _ := strconv.Atoi(total)
-	if name != "" && credit != "" && time != "" && total != "" {
+	if name != "" && credit != "" {
 		l1 := len([]rune(name))
-		l2 := len([]rune(total))
 		if l1 > 20 || l1 < 1 {
 			tool.RespErrorWithData(ctx, "课程名请在1到20位之间")
-			return
-		}
-		if l2 > 500 || l2 <= 0 {
-			tool.RespErrorWithData(ctx, "总人数请设置在0-500")
 			return
 		}
 		if fCredit > 20 || fCredit <= 0 {
@@ -52,8 +44,6 @@ func registerCourse(ctx *gin.Context) {
 		course := model.Course{
 			Name:   name,
 			Credit: fCredit,
-			Time:   time,
-			Total:  iTotal,
 		}
 
 		err := service.RegisterCourse(course)
@@ -83,20 +73,20 @@ func deleteCourse(ctx *gin.Context) {
 	return
 }
 
-func UpdateCourseTime(ctx *gin.Context) {
-	JudgeAdmin(ctx)
-	Sid := ctx.Param("id")
-	time := ctx.PostForm("time")
-	id, _ := strconv.Atoi(Sid)
-	err := service.ChangeCourseTime(id, time)
-	if err != nil {
-		fmt.Println("update err: ", err)
-		tool.RespInternalError(ctx)
-		return
-	}
-	tool.RespSuccessful(ctx)
-	return
-}
+//func UpdateCourseTime(ctx *gin.Context) {
+//	JudgeAdmin(ctx)
+//	Sid := ctx.Param("id")
+//	time := ctx.PostForm("time")
+//	id, _ := strconv.Atoi(Sid)
+//	err := service.ChangeCourseTime(id, time)
+//	if err != nil {
+//		fmt.Println("update err: ", err)
+//		tool.RespInternalError(ctx)
+//		return
+//	}
+//	tool.RespSuccessful(ctx)
+//	return
+//}
 
 func UpdateCourseCredit(ctx *gin.Context) {
 	JudgeAdmin(ctx)
@@ -128,29 +118,29 @@ func UpdateCourseName(ctx *gin.Context) {
 	return
 }
 
-func UpdateCourseTotal(ctx *gin.Context) {
-	JudgeAdmin(ctx)
-	Sid := ctx.Param("id")
-	Stotal := ctx.PostForm("total")
-	id, _ := strconv.Atoi(Sid)
-	total, _ := strconv.Atoi(Stotal)
-	err := service.ChangeCourseTotal(id, total)
-	if err != nil {
-		fmt.Println("update err: ", err)
-		tool.RespInternalError(ctx)
-		return
-	}
-	tool.RespSuccessful(ctx)
-	return
-}
+//func UpdateCourseTotal(ctx *gin.Context) {
+//	JudgeAdmin(ctx)
+//	Sid := ctx.Param("id")
+//	Stotal := ctx.PostForm("total")
+//	id, _ := strconv.Atoi(Sid)
+//	total, _ := strconv.Atoi(Stotal)
+//	err := service.ChangeCourseTotal(id, total)
+//	if err != nil {
+//		fmt.Println("update err: ", err)
+//		tool.RespInternalError(ctx)
+//		return
+//	}
+//	tool.RespSuccessful(ctx)
+//	return
+//}
 
-func getAllCourse(ctx *gin.Context) {
-	err := service.GetAllCourse()
-	if err != nil {
-		fmt.Println("get err: ", err)
-		tool.RespInternalError(ctx)
-		return
-	}
-	tool.RespSuccessful(ctx)
-	return
-}
+//func getAllCourse(ctx *gin.Context) {
+//	err := service.GetAllCourse()
+//	if err != nil {
+//		fmt.Println("get err: ", err)
+//		tool.RespInternalError(ctx)
+//		return
+//	}
+//	tool.RespSuccessful(ctx)
+//	return
+//}
