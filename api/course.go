@@ -9,23 +9,26 @@ import (
 	"strconv"
 )
 
-func JudgeAdmin(ctx *gin.Context) {
+func JudgeAdmin(ctx *gin.Context) bool {
 	Iid, _ := ctx.Get("id")
 	id := Iid.(int)
 	flag, err := service.IsAdmin(id)
 	if err != nil {
 		fmt.Println("judge err: ", err)
 		tool.RespInternalError(ctx)
+		return false
+	}
+	if !flag {
+		tool.RespErrorWithData(ctx, "你不是管理员，无法操作")
+		return false
+	}
+	return true
+}
+func registerCourse(ctx *gin.Context) {
+	if JudgeAdmin(ctx) == false {
 		return
 	}
 
-	if !flag {
-		tool.RespErrorWithData(ctx, "你不是管理员，无法操作")
-		return
-	}
-}
-func registerCourse(ctx *gin.Context) {
-	JudgeAdmin(ctx)
 	name := ctx.PostForm("name")
 	credit := ctx.PostForm("credit")
 
