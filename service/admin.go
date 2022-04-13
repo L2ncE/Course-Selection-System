@@ -18,7 +18,7 @@ func IsAdmin(id int) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	if identity != 3 {
+	if identity != 0 {
 		return false, nil
 	}
 	return true, nil
