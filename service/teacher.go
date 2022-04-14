@@ -64,3 +64,14 @@ func IsRepeatTNickName(username string) (bool, error) {
 
 	return true, nil
 }
+
+func IsTeacher(id int) (bool, error) {
+	identity, err := dao.SelectTeacherIdentityById(id)
+	if err != nil {
+		return false, err
+	}
+	if identity != 2 && identity != 3 {
+		return false, nil
+	}
+	return true, nil
+}
