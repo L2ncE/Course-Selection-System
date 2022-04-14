@@ -76,3 +76,13 @@ func SelectUserByTNickName(Name string) (model.TeacherInfo, error) {
 	fmt.Println(user)
 	return user, nil
 }
+
+func SelectTeacherIdentityById(id int) (identity int, err error) {
+	var user model.Teacher
+	db.Model(&model.Teacher{}).Select("identity").Where("id = ?", id).First(&user)
+	if err != nil {
+		return user.Identity, err
+	}
+	fmt.Println(user)
+	return user.Identity, nil
+}
