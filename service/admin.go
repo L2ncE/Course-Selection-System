@@ -14,7 +14,7 @@ func IsAdminPasswordCorrect(Name, password string) (bool, error) {
 }
 
 func IsAdmin(id int) (bool, error) {
-	identity, err := dao.SelectIdentityById(id)
+	identity, err := dao.SelectAdminIdentityById(id)
 	if err != nil {
 		return false, err
 	}
