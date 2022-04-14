@@ -28,16 +28,6 @@ func DeleteCourse(id int) error {
 	return err
 }
 
-//func UpdateCourseTime(id int, time string) error {
-//	deRes := db.Model(&model.Course{}).Where("id = ?", id).Update("Time", time)
-//	err := deRes.Error
-//	if err != nil {
-//		fmt.Printf("update failed, err:%v\n", err)
-//		return err
-//	}
-//	return err
-//}
-
 func UpdateCourseCredit(id int, credit string) error {
 	deRes := db.Model(&model.Course{}).Where("id = ?", id).Update("Credit", credit)
 	err := deRes.Error
@@ -57,16 +47,6 @@ func UpdateCourseName(id int, name string) error {
 	}
 	return err
 }
-
-//func UpdateCourseTotal(id int, total int) error {
-//	deRes := db.Model(&model.Course{}).Where("id = ?", id).Update("Total", total)
-//	err := deRes.Error
-//	if err != nil {
-//		fmt.Printf("update failed, err:%v\n", err)
-//		return err
-//	}
-//	return err
-//}
 
 func SelectCourse() ([]model.Course, error) {
 	var Course []model.Course
