@@ -36,7 +36,7 @@ func UpdateTCourseTime(id int, time string) error {
 	return err
 }
 
-func UpdateCourseTotal(id int, total int) error {
+func UpdateTCourseTotal(id int, total int) error {
 	deRes := db.Model(&model.TCourse{}).Where("id = ?", id).Update("Total", total)
 	err := deRes.Error
 	if err != nil {
