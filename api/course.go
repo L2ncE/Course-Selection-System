@@ -24,6 +24,7 @@ func JudgeAdmin(ctx *gin.Context) bool {
 	}
 	return true
 }
+
 func registerCourse(ctx *gin.Context) {
 	if JudgeAdmin(ctx) == false {
 		return
