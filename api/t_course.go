@@ -34,12 +34,11 @@ func registerTCourse(ctx *gin.Context) {
 	teacherNum := ITeacherNum.(int)
 
 	SCourseNum := ctx.Param("course_num")
-	STime := ctx.PostForm("time")
+	time := ctx.PostForm("time")
 	STotal := ctx.PostForm("total")
 
-	if SCourseNum != "" && STime != "" && STotal != "" {
+	if SCourseNum != "" && time != "" && STotal != "" {
 		courseNum, _ := strconv.Atoi(SCourseNum)
-		time, _ := strconv.Atoi(STime)
 		total, _ := strconv.Atoi(STotal)
 
 		if total <= 0 || total > 1000 {
