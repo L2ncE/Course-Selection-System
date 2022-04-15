@@ -66,3 +66,61 @@ func registerTCourse(ctx *gin.Context) {
 	tool.RespErrorWithData(ctx, "请将信息输入完整")
 	return
 }
+
+func deleteTCourse(ctx *gin.Context) {
+	if JudgeTeacher(ctx) == false {
+		return
+	}
+	Sid := ctx.Param("id")
+	id, _ := strconv.Atoi(Sid)
+	err := service.RemoveTCourse(id)
+	if err != nil {
+		fmt.Println("delete err: ", err)
+		tool.RespInternalError(ctx)
+		return
+	}
+	tool.RespSuccessful(ctx)
+	return
+}
+
+func UpdateTCourseTime(ctx *gin.Context) {
+	JudgeAdmin(ctx)
+	Sid := ctx.Param("id")
+	time := ctx.PostForm("time")
+	id, _ := strconv.Atoi(Sid)
+	err := service.ChangeTCourseTime(id, time)
+	if err != nil {
+		fmt.Println("update err: ", err)
+		tool.RespInternalError(ctx)
+		return
+	}
+	tool.RespSuccessful(ctx)
+	return
+}
+
+func UpdateTCourseTotal(ctx *gin.Context) {
+	JudgeAdmin(ctx)
+	Sid := ctx.Param("id")
+	STotal := ctx.PostForm("total")
+	id, _ := strconv.Atoi(Sid)
+	total, _ := strconv.Atoi(STotal)
+	err := service.ChangeTCourseTotal(id, total)
+	if err != nil {
+		fmt.Println("update err: ", err)
+		tool.RespInternalError(ctx)
+		return
+	}
+	tool.RespSuccessful(ctx)
+	return
+}
+
+func getAllTCourse(ctx *gin.Context) {
+	course, err := service.GetAllTCourse()
+	if err != nil {
+		fmt.Println("get err: ", err)
+		tool.RespInternalError(ctx)
+		return
+	}
+	tool.RespSuccessfulWithData(ctx, course)
+	return
+}
