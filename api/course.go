@@ -79,21 +79,6 @@ func deleteCourse(ctx *gin.Context) {
 	return
 }
 
-//func UpdateCourseTime(ctx *gin.Context) {
-//	JudgeAdmin(ctx)
-//	Sid := ctx.Param("id")
-//	time := ctx.PostForm("time")
-//	id, _ := strconv.Atoi(Sid)
-//	err := service.ChangeCourseTime(id, time)
-//	if err != nil {
-//		fmt.Println("update err: ", err)
-//		tool.RespInternalError(ctx)
-//		return
-//	}
-//	tool.RespSuccessful(ctx)
-//	return
-//}
-
 func UpdateCourseCredit(ctx *gin.Context) {
 	if JudgeAdmin(ctx) == false {
 		return
@@ -127,22 +112,6 @@ func UpdateCourseName(ctx *gin.Context) {
 	tool.RespSuccessful(ctx)
 	return
 }
-
-//func UpdateCourseTotal(ctx *gin.Context) {
-//	JudgeAdmin(ctx)
-//	Sid := ctx.Param("id")
-//	Stotal := ctx.PostForm("total")
-//	id, _ := strconv.Atoi(Sid)
-//	total, _ := strconv.Atoi(Stotal)
-//	err := service.ChangeCourseTotal(id, total)
-//	if err != nil {
-//		fmt.Println("update err: ", err)
-//		tool.RespInternalError(ctx)
-//		return
-//	}
-//	tool.RespSuccessful(ctx)
-//	return
-//}
 
 func getAllCourse(ctx *gin.Context) {
 	course, err := service.GetAllCourse()
