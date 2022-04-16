@@ -6,3 +6,7 @@ type StuCourse struct {
 	TCourseNum int `gorm:"column:TCourseNum"`
 	Grade      int
 }
+
+type StudentNum struct {
+	StudentNum int `gorm:"column:StudentNum"`
+}
