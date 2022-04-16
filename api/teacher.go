@@ -191,6 +191,6 @@ func changeTPassword(ctx *gin.Context) {
 func searchStudentInfoByTCourseNum(ctx *gin.Context) {
 	Sid := ctx.Param("id")
 	id, _ := strconv.Atoi(Sid)
-	res, _ := service.GetStudentInfoByTCourseNum(id)
+	res, _ := service.GetStudentNumByTCourseNum(id)
 	tool.RespErrorWithData(ctx, res)
 }

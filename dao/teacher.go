@@ -81,14 +81,12 @@ func SelectTeacherIdentityById(id int) (identity int, err error) {
 	return user.Identity, nil
 }
 
-func SelectStudentInfoByTCourseNum(id int) ([]model.StudentInfo2, error) {
-	var course []model.StuCourse
-	var info []model.StudentInfo2
-	sql := db.Model(&model.StuCourse{}).Select("StudentNum").Where("TCourseNum = ?", id).First(&course)
-	dbRes := db.Model(&model.Student{}).Where("Id = ?", sql).First(&info)
+func SelectStudentNumByTCourseNum(id int) ([]model.StudentNum, error) {
+	var num []model.StudentNum
+	dbRes := db.Model(&model.StuCourse{}).Where("TCourseNum = ?", id).Find(&num)
 	err := dbRes.Error
 	if err != nil {
-		return info, err
+		return num, err
 	}
-	return info, nil
+	return num, nil
 }

@@ -71,7 +71,7 @@ func IsTeacher(id int) (bool, error) {
 	return true, nil
 }
 
-func GetStudentInfoByTCourseNum(id int) ([]model.StudentInfo2, error) {
-	res, _ := dao.SelectStudentInfoByTCourseNum(id)
+func GetStudentNumByTCourseNum(id int) ([]model.StudentNum, error) {
+	res, _ := dao.SelectStudentNumByTCourseNum(id)
 	return res, nil
 }
