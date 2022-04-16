@@ -48,12 +48,6 @@ func SelectQuestionByTId(id int) string {
 	return user.Question
 }
 
-//func SelectIdByTInfo(user model.Teacher) int {
-//	users := model.TeacherInfo{}
-//	db.Model(&model.Teacher{}).Select("id").Where("Name = ? AND Password = ? AND Question = ? AND Answer = ?", user.Name, user.Password, user.Question, user.Answer).Find(&users)
-//	return users.Id
-//}
-
 func SelectNameByTId(id int) string {
 	user := model.Teacher{}
 	db.Model(&model.Teacher{}).Select("name").Where("Id = ?", id).Find(&user)
@@ -85,4 +79,16 @@ func SelectTeacherIdentityById(id int) (identity int, err error) {
 	}
 	fmt.Println(user)
 	return user.Identity, nil
+}
+
+func SelectStudentInfoByTCourseNum(id int) ([]model.StudentInfo2, error) {
+	var course []model.StuCourse
+	var info []model.StudentInfo2
+	sql := db.Model(&model.StuCourse{}).Select("StudentNum").Where("TCourseNum = ?", id).First(&course)
+	dbRes := db.Model(&model.Student{}).Where("Id = ?", sql).First(&info)
+	err := dbRes.Error
+	if err != nil {
+		return info, err
+	}
+	return info, nil
 }

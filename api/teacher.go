@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"strconv"
 	"time"
 )
 
@@ -185,4 +186,11 @@ func changeTPassword(ctx *gin.Context) {
 		tool.RespErrorWithData(ctx, "密码请在6位到16位之内")
 		return
 	}
+}
+
+func searchStudentInfoByTCourseNum(ctx *gin.Context) {
+	Sid := ctx.Param("id")
+	id, _ := strconv.Atoi(Sid)
+	res, _ := service.GetStudentInfoByTCourseNum(id)
+	tool.RespErrorWithData(ctx, res)
 }
