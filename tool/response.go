@@ -29,3 +29,11 @@ func RespSuccessfulWithData(ctx *gin.Context, data interface{}) {
 		"data": data,
 	})
 }
+
+func RespSuccessfulWithTwoData(ctx *gin.Context, data1 interface{}, data2 interface{}) {
+	ctx.JSON(http.StatusOK, gin.H{
+		"info":  "成功",
+		"data1": data1,
+		"data2": data2,
+	})
+}
