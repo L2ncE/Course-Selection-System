@@ -48,7 +48,7 @@ func UpdateTCourseTotal(id int, total int) error {
 
 func SelectTCourse() ([]model.TCourse, error) {
 	var Course []model.TCourse
-	dbRes := db.Model(&model.Course{}).Find(&Course)
+	dbRes := db.Model(&model.TCourse{}).Find(&Course)
 	err := dbRes.Error
 	return Course, err
 }
