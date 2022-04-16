@@ -60,6 +60,12 @@ func SelectIdByStuNickName(name string) int {
 	return user.Id
 }
 
+func SelectMajorByStuId(id int) int {
+	user := model.Student{}
+	db.Model(&model.Student{}).Select("MajorNum").Where("Id = ?", id).Find(&user)
+	return user.MajorNum
+}
+
 func SelectUserByStuNickName(Name string) (model.StudentInfo, error) {
 	var user model.StudentInfo
 	dbRes := db.Model(&model.Student{}).Select("id", "password").Where("NickName = ?", Name).First(&user)

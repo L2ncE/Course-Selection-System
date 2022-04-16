@@ -11,3 +11,9 @@ func SelectAllMajor() ([]model.Major, error) {
 	}
 	return majors, nil
 }
+
+func SelectMajorNameByMajorId(id int) string {
+	major := model.Major{}
+	db.Model(&model.Major{}).Select("MajorName").Where("MajorNum = ?", id).Find(&major)
+	return major.MajorName
+}
