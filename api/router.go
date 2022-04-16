@@ -32,8 +32,9 @@ func InitEngine() {
 		teacherGroup.POST("/ss", tSecretSecurity)    //密保功能
 		teacherGroup.POST("/ss/question", tQuestion) //查询密保问题
 		{
-			teacherGroup.Use(JWTAuth)                      //需要token
-			teacherGroup.PUT("/password", changeTPassword) //修改密码
+			teacherGroup.Use(JWTAuth)                                      //需要token
+			teacherGroup.PUT("/password", changeTPassword)                 //修改密码
+			teacherGroup.GET("/course/:id", searchStudentInfoByTCourseNum) //得到老师自己课程的学生详情
 		}
 	}
 
@@ -62,6 +63,7 @@ func InitEngine() {
 
 	stuCourseGroup := engine.Group("/stu_course") //学生课程
 	{
+		stuCourseGroup.Use(JWTAuth)
 		stuCourseGroup.GET("/all", getAllStuCourse)                     //得到所有已选课程
 		stuCourseGroup.POST("/register/:course_num", registerStuCourse) //新增注册学生课程
 		stuCourseGroup.DELETE("/:id", deleteStuCourse)                  //删除学生课程
