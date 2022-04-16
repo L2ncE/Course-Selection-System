@@ -87,6 +87,9 @@ func loginStu(ctx *gin.Context) {
 	password := ctx.PostForm("password")
 	id := service.GetIdByStuNickName(nickname)
 	username := service.GetNameByStuId(id)
+	majorNum := service.GetMajorNumByStuId(id)
+	major := service.GetMajorNameByMajorId(majorNum)
+
 	flag, err := service.IsStuPasswordCorrect(id, password)
 	if err != nil {
 		fmt.Println("judge password correct err: ", err)
@@ -114,7 +117,8 @@ func loginStu(ctx *gin.Context) {
 	if err != nil {
 		tool.RespInternalError(ctx)
 	}
-	tool.RespSuccessfulWithData(ctx, s)
+	welcome := "欢迎来自" + major + "的" + username
+	tool.RespSuccessfulWithTwoData(ctx, welcome, s)
 }
 
 func stuSecretSecurity(ctx *gin.Context) {
