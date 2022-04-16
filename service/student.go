@@ -42,6 +42,11 @@ func GetNameByStuId(id int) string {
 	return name
 }
 
+func GetMajorNumByStuId(id int) int {
+	MajorNum := dao.SelectMajorByStuId(id)
+	return MajorNum
+}
+
 func GetIdByStuNickName(name string) int {
 	id := dao.SelectIdByStuNickName(name)
 	return id
