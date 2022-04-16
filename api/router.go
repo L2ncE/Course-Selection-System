@@ -60,6 +60,13 @@ func InitEngine() {
 		tCourseGroup.PUT("/total/:id", UpdateTCourseTotal)          //更新课程总人数
 	}
 
+	stuCourseGroup := engine.Group("/stu_course") //学生课程
+	{
+		stuCourseGroup.GET("/all", getAllStuCourse)                     //得到所有已选课程
+		stuCourseGroup.POST("/register/:course_num", registerStuCourse) //新增注册学生课程
+		stuCourseGroup.DELETE("/:id", deleteStuCourse)                  //删除学生课程
+	}
+
 	err := engine.Run(":8081")
 	if err != nil {
 		fmt.Printf("init error:%v\n", err)
