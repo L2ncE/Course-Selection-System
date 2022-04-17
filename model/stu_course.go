@@ -13,10 +13,15 @@ type StuTwoT struct {
 }
 
 type StuCourseInfo struct {
-	TCourseNum int `gorm:"column:TCourseNum"`
-	Grade      int
+	TCourseNum  int `gorm:"column:TCourseNum"`
+	Grade       string
+	TCourseInfo []TCourseInfo `gorm:"foreignKey:Id;references:TCourseNum"`
 }
 
 func (StuTwoT) TableName() string {
+	return "stu_course"
+}
+
+func (StuCourseInfo) TableName() string {
 	return "stu_course"
 }

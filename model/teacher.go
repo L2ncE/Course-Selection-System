@@ -16,3 +16,12 @@ type TeacherInfo struct {
 	NickName string `gorm:"column:NickName"`
 	Password string
 }
+
+type TeacherInfo2 struct {
+	Id   int
+	Name string
+}
+
+func (TeacherInfo2) TableName() string {
+	return "teacher"
+}
