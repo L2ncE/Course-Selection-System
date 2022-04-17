@@ -39,7 +39,8 @@ func registerStuCourse(ctx *gin.Context) {
 func deleteStuCourse(ctx *gin.Context) {
 	Sid := ctx.Param("id")
 	id, _ := strconv.Atoi(Sid)
-	err := service.RemoveStuCourse(id)
+	TCourseNum := service.GetTCourseNumByStuCourseId(id)
+	err := service.RemoveStuCourse(id, TCourseNum)
 	if err != nil {
 		fmt.Println("delete err: ", err)
 		tool.RespInternalError(ctx)

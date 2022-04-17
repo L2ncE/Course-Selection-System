@@ -23,13 +23,13 @@ func InsertStuCourse(course model.StuCourse) error {
 	return err
 }
 
-func DeleteStuCourse(id int) error {
+func DeleteStuCourse(id, TCourseNum int) error {
 	var Course []model.StuCourse
 	err := db.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Where("Id = ?", id).Delete(&Course).Error; err != nil {
 			return err
 		}
-		if err := tx.Model(&model.TCourse{}).Where("id = ?", id).Update("Num", gorm.Expr("Num - 1")).Error; err != nil {
+		if err := tx.Model(&model.TCourse{}).Where("id = ?", TCourseNum).Update("Num", gorm.Expr("Num - 1")).Error; err != nil {
 			return err
 		}
 		return nil
@@ -46,4 +46,10 @@ func SelectStuCourse(id int) ([]model.StuCourseInfo, error) {
 	dbRes := db.Debug().Where("StudentNum = ?", id).Preload("TCourseInfo").Preload("TCourseInfo.CourseInfo").Preload("TCourseInfo.TeacherInfo").Find(&Course)
 	err := dbRes.Error
 	return Course, err
+}
+
+func SelectTCourseNumByStuCourseId(id int) int {
+	course := model.StuCourse{}
+	db.Model(&model.StuCourse{}).Select("TCourseNum").Where("Id = ?", id).Find(&course)
+	return course.TCourseNum
 }

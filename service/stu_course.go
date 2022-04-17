@@ -10,12 +10,17 @@ func RegisterStuCourse(c model.StuCourse) error {
 	return err
 }
 
-func RemoveStuCourse(id int) error {
-	err := dao.DeleteStuCourse(id)
+func RemoveStuCourse(id, TCourseNum int) error {
+	err := dao.DeleteStuCourse(id, TCourseNum)
 	return err
 }
 
 func GetAllStuCourse(id int) ([]model.StuCourseInfo, error) {
 	course, err := dao.SelectStuCourse(id)
 	return course, err
+}
+
+func GetTCourseNumByStuCourseId(id int) int {
+	TCourseNum := dao.SelectTCourseNumByStuCourseId(id)
+	return TCourseNum
 }
