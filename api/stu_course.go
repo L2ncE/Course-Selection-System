@@ -50,12 +50,16 @@ func deleteStuCourse(ctx *gin.Context) {
 }
 
 func getAllStuCourse(ctx *gin.Context) {
-	course, err := service.GetAllStuCourse()
+	Iid, _ := ctx.Get("id")
+	id, _ := Iid.(int)
+	course, err := service.GetAllStuCourse(id)
+	name := service.GetNameByStuId(id)
 	if err != nil {
 		fmt.Println("get err: ", err)
 		tool.RespInternalError(ctx)
 		return
 	}
-	tool.RespSuccessfulWithData(ctx, course)
+	data1 := "你好" + name
+	tool.RespSuccessfulWithTwoData(ctx, data1, course)
 	return
 }

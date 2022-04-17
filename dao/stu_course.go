@@ -26,9 +26,9 @@ func DeleteStuCourse(id int) error {
 	return err
 }
 
-func SelectStuCourse() ([]model.StuCourse, error) {
-	var Course []model.StuCourse
-	dbRes := db.Model(&model.StuCourse{}).Find(&Course)
+func SelectStuCourse(id int) ([]model.StuCourseInfo, error) {
+	var Course []model.StuCourseInfo
+	dbRes := db.Model(&model.StuCourse{}).Where("StudentNum = ?", id).Find(&Course)
 	err := dbRes.Error
 	return Course, err
 }

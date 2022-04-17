@@ -15,7 +15,7 @@ func RemoveStuCourse(id int) error {
 	return err
 }
 
-func GetAllStuCourse() ([]model.StuCourse, error) {
-	course, err := dao.SelectStuCourse()
+func GetAllStuCourse(id int) ([]model.StuCourseInfo, error) {
+	course, err := dao.SelectStuCourse(id)
 	return course, err
 }
