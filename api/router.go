@@ -22,6 +22,7 @@ func InitEngine() {
 		{
 			studentGroup.Use(JWTAuth)                        //需要token
 			studentGroup.PUT("/password", changeStuPassword) //修改密码
+			studentGroup.GET("/all", getAllStuCourse)        //得到所有已选课程
 		}
 	}
 
@@ -64,7 +65,6 @@ func InitEngine() {
 	stuCourseGroup := engine.Group("/stu_course") //学生课程
 	{
 		stuCourseGroup.Use(JWTAuth)
-		stuCourseGroup.GET("/all", getAllStuCourse)                     //得到所有已选课程
 		stuCourseGroup.POST("/register/:course_num", registerStuCourse) //新增注册学生课程
 		stuCourseGroup.DELETE("/:id", deleteStuCourse)                  //删除学生课程
 	}
