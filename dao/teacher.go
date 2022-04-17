@@ -3,6 +3,7 @@ package dao
 import (
 	"CSA/model"
 	"fmt"
+	"gorm.io/gorm/clause"
 )
 
 func InsertT(user model.Teacher) error {
@@ -81,12 +82,11 @@ func SelectTeacherIdentityById(id int) (identity int, err error) {
 	return user.Identity, nil
 }
 
-func SelectStudentNumByTCourseNum(id int) ([]model.StudentNum, error) {
-	var num []model.StudentNum
-	dbRes := db.Model(&model.StuCourse{}).Where("TCourseNum = ?", id).Find(&num)
-	err := dbRes.Error
+func SelectStudentInfoByTCourseNum(id int) ([]model.StuTwoT, error) {
+	var info []model.StuTwoT
+	err := db.Debug().Where("TCourseNum = ?", id).Preload(clause.Associations).Find(&info).Error
 	if err != nil {
-		return num, err
+		return info, err
 	}
-	return num, nil
+	return info, nil
 }
