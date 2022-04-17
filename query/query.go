@@ -1089,7 +1089,6 @@ func main() {
 	res := ret.FindAllStringSubmatch(str, -1)
 	//打印
 	for _, one := range res {
-		//fmt.Println("one[0]=", one[0])
-		fmt.Println(one[1]) //返回的是一个数组
+		fmt.Println(one[1])
 	}
 }
