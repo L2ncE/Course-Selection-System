@@ -83,7 +83,9 @@ func deleteTCourse(ctx *gin.Context) {
 }
 
 func UpdateTCourseTime(ctx *gin.Context) {
-	JudgeAdmin(ctx)
+	if JudgeTeacher(ctx) == false {
+		return
+	}
 	Sid := ctx.Param("id")
 	time := ctx.PostForm("time")
 	id, _ := strconv.Atoi(Sid)
@@ -98,7 +100,9 @@ func UpdateTCourseTime(ctx *gin.Context) {
 }
 
 func UpdateTCourseTotal(ctx *gin.Context) {
-	JudgeAdmin(ctx)
+	if JudgeTeacher(ctx) == false {
+		return
+	}
 	Sid := ctx.Param("id")
 	STotal := ctx.PostForm("total")
 	id, _ := strconv.Atoi(Sid)
