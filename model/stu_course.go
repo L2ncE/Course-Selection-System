@@ -7,6 +7,11 @@ type StuCourse struct {
 	Grade      int
 }
 
-type StudentNum struct {
-	StudentNum int `gorm:"column:StudentNum"`
+type StuTwoT struct {
+	StudentNum int             `gorm:"column:StudentNum"`
+	Students   []Student2TInfo `gorm:"foreignKey:Id;references:StudentNum"`
+}
+
+func (StuTwoT) TableName() string {
+	return "stu_course"
 }

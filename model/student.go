@@ -18,9 +18,12 @@ type StudentInfo struct {
 	Password string
 }
 
-type StudentInfo2 struct {
+type Student2TInfo struct {
 	Id       int
 	Name     string
-	MajorNum int    `gorm:"column:MajorNum"`
-	NickName string `gorm:"column:NickName"`
+	MajorNum int `gorm:"column:MajorNum"`
+}
+
+func (Student2TInfo) TableName() string {
+	return "student"
 }
