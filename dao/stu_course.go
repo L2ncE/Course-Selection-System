@@ -3,11 +3,19 @@ package dao
 import (
 	"CSA/model"
 	"fmt"
+	"gorm.io/gorm"
 )
 
 func InsertStuCourse(course model.StuCourse) error {
-	deres := db.Select("StudentNum", "TCourseNum").Create(&model.StuCourse{StudentNum: course.StudentNum, TCourseNum: course.TCourseNum})
-	err := deres.Error
+	err := db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Select("StudentNum", "TCourseNum").Create(&model.StuCourse{StudentNum: course.StudentNum, TCourseNum: course.TCourseNum}).Error; err != nil {
+			return err
+		}
+		if err := tx.Model(&model.TCourse{}).Where("id = ?", course.TCourseNum).Update("Num", gorm.Expr("Num + 1")).Error; err != nil {
+			return err
+		}
+		return nil
+	})
 	if err != nil {
 		fmt.Printf("insert failed, err:%v\n", err)
 		return err
@@ -17,8 +25,15 @@ func InsertStuCourse(course model.StuCourse) error {
 
 func DeleteStuCourse(id int) error {
 	var Course []model.StuCourse
-	dbRes := db.Where("Id = ?", id).Delete(&Course)
-	err := dbRes.Error
+	err := db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Where("Id = ?", id).Delete(&Course).Error; err != nil {
+			return err
+		}
+		if err := tx.Model(&model.TCourse{}).Where("id = ?", id).Update("Num", gorm.Expr("Num - 1")).Error; err != nil {
+			return err
+		}
+		return nil
+	})
 	if err != nil {
 		fmt.Printf("delete failed, err:%v\n", err)
 		return err
