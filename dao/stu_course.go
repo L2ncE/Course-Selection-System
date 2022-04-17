@@ -53,3 +53,9 @@ func SelectTCourseNumByStuCourseId(id int) int {
 	db.Model(&model.StuCourse{}).Select("TCourseNum").Where("Id = ?", id).Find(&course)
 	return course.TCourseNum
 }
+
+func SelectStudentNumByStuCourseId(id int) int {
+	course := model.StuCourse{}
+	db.Model(&model.StuCourse{}).Select("StudentNum").Where("Id = ?", id).Find(&course)
+	return course.StudentNum
+}

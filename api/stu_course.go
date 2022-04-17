@@ -37,10 +37,19 @@ func registerStuCourse(ctx *gin.Context) {
 }
 
 func deleteStuCourse(ctx *gin.Context) {
-	Sid := ctx.Param("id")
-	id, _ := strconv.Atoi(Sid)
-	TCourseNum := service.GetTCourseNumByStuCourseId(id)
-	err := service.RemoveStuCourse(id, TCourseNum)
+	SCourseId := ctx.Param("id")
+	Iid, _ := ctx.Get("id")
+	id := Iid.(int)
+	CourseId, _ := strconv.Atoi(SCourseId)
+
+	StudentNum := service.GetStudentNumByStuCourseId(CourseId)
+	TCourseNum := service.GetTCourseNumByStuCourseId(CourseId)
+	fmt.Println(StudentNum, id)
+	if StudentNum != id {
+		tool.RespErrorWithData(ctx, "您不能删除他人的课程")
+		return
+	}
+	err := service.RemoveStuCourse(CourseId, TCourseNum)
 	if err != nil {
 		fmt.Println("delete err: ", err)
 		tool.RespInternalError(ctx)

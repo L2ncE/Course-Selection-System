@@ -24,3 +24,8 @@ func GetTCourseNumByStuCourseId(id int) int {
 	TCourseNum := dao.SelectTCourseNumByStuCourseId(id)
 	return TCourseNum
 }
+
+func GetStudentNumByStuCourseId(id int) int {
+	StudentNum := dao.SelectStudentNumByStuCourseId(id)
+	return StudentNum
+}
