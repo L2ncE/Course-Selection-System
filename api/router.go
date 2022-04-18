@@ -69,6 +69,11 @@ func InitEngine() {
 		stuCourseGroup.DELETE("/:id", deleteStuCourse)                  //删除学生课程
 	}
 
+	gitCourseGroup := engine.Group("/git") //GitHub用户
+	{
+		gitCourseGroup.POST("/oauth", Oauth)
+	}
+
 	err := engine.Run(":8081")
 	if err != nil {
 		fmt.Printf("init error:%v\n", err)
