@@ -28,7 +28,7 @@ func DeleteCourse(id int) error {
 	return err
 }
 
-func UpdateCourseCredit(id int, credit string) error {
+func UpdateCourseCredit(id int, credit float64) error {
 	deRes := db.Model(&model.Course{}).Where("id = ?", id).Update("Credit", credit)
 	err := deRes.Error
 	if err != nil {
@@ -53,4 +53,10 @@ func SelectCourse() ([]model.Course, error) {
 	dbRes := db.Model(&model.Course{}).Find(&Course)
 	err := dbRes.Error
 	return Course, err
+}
+
+func SelectCreditByCourseNum(id int) float64 {
+	course := model.Course{}
+	db.Model(&model.Course{}).Select("Credit").Where("Id = ?", id).Find(&course)
+	return course.Credit
 }

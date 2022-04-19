@@ -15,7 +15,7 @@ func RemoveCourse(id int) error {
 	return err
 }
 
-func ChangeCourseCredit(id int, credit string) error {
+func ChangeCourseCredit(id int, credit float64) error {
 	err := dao.UpdateCourseCredit(id, credit)
 	return err
 }
@@ -28,4 +28,9 @@ func ChangeCourseName(id int, name string) error {
 func GetAllCourse() ([]model.Course, error) {
 	course, err := dao.SelectCourse()
 	return course, err
+}
+
+func GetCreditById(id int) float64 {
+	credit := dao.SelectCreditByCourseNum(id)
+	return credit
 }

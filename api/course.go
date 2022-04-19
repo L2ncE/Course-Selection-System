@@ -85,8 +85,9 @@ func UpdateCourseCredit(ctx *gin.Context) {
 	}
 	Sid := ctx.Param("id")
 	credit := ctx.PostForm("credit")
+	fCredit, _ := strconv.ParseFloat(credit, 32)
 	id, _ := strconv.Atoi(Sid)
-	err := service.ChangeCourseCredit(id, credit)
+	err := service.ChangeCourseCredit(id, fCredit)
 	if err != nil {
 		fmt.Println("update err: ", err)
 		tool.RespInternalError(ctx)
