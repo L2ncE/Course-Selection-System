@@ -29,3 +29,16 @@ func GetAllTCourse() ([]model.TCourse, error) {
 	course, err := dao.SelectTCourse()
 	return course, err
 }
+
+func IsRepeatTime(time string) bool {
+	str := dao.SelectTCourseTime(time)
+	if str != "" {
+		return true
+	}
+	return false
+}
+
+func GetTCourseTimeById(id int) string {
+	time := dao.SelectTCourseTimeById(id)
+	return time
+}

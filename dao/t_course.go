@@ -52,3 +52,24 @@ func SelectTCourse() ([]model.TCourse, error) {
 	err := dbRes.Error
 	return Course, err
 }
+
+func SelectTCourseTime(time string) string {
+	course := model.TCourse{}
+	dbRes := db.Model(&model.TCourse{}).Where("Time Like ?", "%"+time+"%").Find(&course)
+	err := dbRes.Error
+	if err != nil {
+		fmt.Printf("select failed, err:%v\n", err)
+		return course.Time
+	}
+	return course.Time
+}
+
+func SelectTCourseTimeById(id int) string {
+	var course model.TCourse
+	err := db.Model(&model.TCourse{}).Select("time").Where("id = ?", id).First(&course).Error
+	if err != nil {
+		fmt.Printf("select failed, err:%v\n", err)
+		return course.Time
+	}
+	return course.Time
+}
