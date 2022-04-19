@@ -13,6 +13,8 @@ func InitEngine() {
 	engine.GET("/course", getAllCourse)    //得到所有课程
 	engine.GET("/t_course", getAllTCourse) //得到所有老师课程
 
+	engine.POST("/oauth", Oauth) //GitHub第三方登录
+
 	studentGroup := engine.Group("/stu") //学生
 	{
 		studentGroup.POST("/register", registerStu)    //注册
@@ -67,11 +69,6 @@ func InitEngine() {
 		stuCourseGroup.Use(JWTAuth)
 		stuCourseGroup.POST("/register/:course_num", registerStuCourse) //新增注册学生课程
 		stuCourseGroup.DELETE("/:id", deleteStuCourse)                  //删除学生课程
-	}
-
-	gitCourseGroup := engine.Group("/git") //GitHub用户
-	{
-		gitCourseGroup.POST("/oauth", Oauth)
 	}
 
 	err := engine.Run(":8081")
