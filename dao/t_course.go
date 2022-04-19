@@ -73,3 +73,13 @@ func SelectTCourseTimeById(id int) string {
 	}
 	return course.Time
 }
+
+func SelectCourseNumById(id int) int {
+	var course model.TCourse
+	err := db.Model(&model.TCourse{}).Select("CourseNum").Where("id = ?", id).First(&course).Error
+	if err != nil {
+		fmt.Printf("select failed, err:%v\n", err)
+		return course.CourseNum
+	}
+	return course.CourseNum
+}
