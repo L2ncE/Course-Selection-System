@@ -13,7 +13,6 @@ type TCourseInfo struct {
 	Id          int
 	CourseNum   int `gorm:"column:CourseNum"`
 	TeacherNum  int `gorm:"column:TeacherNum"`
-	Time        string
 	Num         int
 	CourseInfo  Course       `gorm:"foreignKey:Id;references:CourseNum"`
 	TeacherInfo TeacherInfo2 `gorm:"foreignKey:Id;references:TeacherNum"`

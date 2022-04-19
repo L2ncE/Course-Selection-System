@@ -16,6 +16,7 @@ type StuTwoT struct {
 type StuCourseInfo struct {
 	TCourseNum  int `gorm:"column:TCourseNum"`
 	Grade       string
+	Time        string
 	TCourseInfo []TCourseInfo `gorm:"foreignKey:Id;references:TCourseNum"`
 }
 

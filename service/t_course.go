@@ -3,6 +3,7 @@ package service
 import (
 	"CSA/dao"
 	"CSA/model"
+	"fmt"
 )
 
 func RegisterTCourse(c model.TCourse) error {
@@ -32,7 +33,8 @@ func GetAllTCourse() ([]model.TCourse, error) {
 
 func IsRepeatTime(time string) bool {
 	str := dao.SelectTCourseTime(time)
-	if str != "" {
+	if str != "" && str != time {
+		fmt.Println(str)
 		return true
 	}
 	return false
