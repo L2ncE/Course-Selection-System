@@ -9,6 +9,7 @@ type Student struct {
 	Answer   string
 	MajorNum int `gorm:"column:MajorNum"`
 	Identity int
+	Credit   float64
 }
 
 type StudentInfo struct {
