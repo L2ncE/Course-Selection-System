@@ -5,8 +5,8 @@ import (
 	"CSA/model"
 )
 
-func RegisterStuCourse(c model.StuCourse) error {
-	err := dao.InsertStuCourse(c)
+func RegisterStuCourse(c model.StuCourse, credit float64) error {
+	err := dao.InsertStuCourse(c, credit)
 	return err
 }
 
@@ -28,4 +28,9 @@ func GetTCourseNumByStuCourseId(id int) int {
 func GetStudentNumByStuCourseId(id int) int {
 	StudentNum := dao.SelectStudentNumByStuCourseId(id)
 	return StudentNum
+}
+
+func GetCourseNumById(id int) int {
+	CourseNum := dao.SelectCourseNumById(id)
+	return CourseNum
 }

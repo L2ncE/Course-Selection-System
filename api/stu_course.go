@@ -17,6 +17,8 @@ func registerStuCourse(ctx *gin.Context) {
 	TCourseNum, _ := strconv.Atoi(SCourseNum)
 	time := service.GetTCourseTimeById(TCourseNum)
 	flag := service.IsRepeatTime(time)
+	courseNum := service.GetCourseNumById(TCourseNum)
+	credit := service.GetCreditById(courseNum)
 
 	if flag {
 		tool.RespErrorWithData(ctx, "选课冲突")
@@ -31,7 +33,7 @@ func registerStuCourse(ctx *gin.Context) {
 			TCourseNum: TCourseNum,
 		}
 
-		err := service.RegisterStuCourse(course)
+		err := service.RegisterStuCourse(course, credit)
 		if err != nil {
 			fmt.Println("register err: ", err)
 			tool.RespInternalError(ctx)

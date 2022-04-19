@@ -6,12 +6,15 @@ import (
 	"gorm.io/gorm"
 )
 
-func InsertStuCourse(course model.StuCourse) error {
+func InsertStuCourse(course model.StuCourse, credit float64) error {
 	err := db.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Select("StudentNum", "TCourseNum", "Time").Create(&model.StuCourse{StudentNum: course.StudentNum, TCourseNum: course.TCourseNum, Time: course.Time}).Error; err != nil {
 			return err
 		}
 		if err := tx.Model(&model.TCourse{}).Where("id = ?", course.TCourseNum).Update("Num", gorm.Expr("Num + 1")).Error; err != nil {
+			return err
+		}
+		if err := tx.Model(&model.Student{}).Where("id = ?", course.StudentNum).Update("Credit", gorm.Expr("Credit + ?", credit)).Error; err != nil {
 			return err
 		}
 		return nil
