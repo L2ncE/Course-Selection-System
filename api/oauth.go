@@ -62,6 +62,7 @@ func Oauth(ctx *gin.Context) {
 	}
 
 	GitHubName := userInfo["login"].(string)
+
 	flag, _ := service.IsRepeatStuNickName(GitHubName)
 
 	if flag == false {
