@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"math/rand"
 	"strconv"
 	"time"
 )
@@ -23,13 +22,13 @@ func registerGitHub(ctx *gin.Context, name string) {
 			return
 		}
 
-		user := model.GitHubUser{
+		user := model.Student{
 			Name:     name,
 			NickName: username,
 			MajorNum: ImajorNum,
 		}
 
-		err := service.RegisterGitHub(user)
+		err := service.RegisterStu(user)
 		if err != nil {
 			fmt.Println("register err: ", err)
 			tool.RespInternalError(ctx)
@@ -61,22 +60,17 @@ func Oauth(ctx *gin.Context) {
 		tool.RespInternalError(ctx)
 		return
 	}
-	var chars = []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}
-	str := ""
-	length := len(chars)
-	rand.Seed(time.Now().UnixNano())
-	for i := 0; i < 5; i++ {
-		str += chars[rand.Intn(length)]
-	}
-	user := userInfo["login"].(string) + str
-	flag, _ := service.IsRepeatGitHubName(user)
+
+	GitHubName := userInfo["login"].(string)
+	flag, _ := service.IsRepeatStuNickName(GitHubName)
 
 	if flag == false {
-		registerGitHub(ctx, user)
+		registerGitHub(ctx, GitHubName)
 	}
-
+	id := service.GetIdByStuNickName(GitHubName)
 	c := model.MyClaims{
-		Username: user,
+		ID:       id,
+		Username: GitHubName,
 		StandardClaims: jwt.StandardClaims{
 			NotBefore: time.Now().Unix() - 60,
 			ExpiresAt: time.Now().Unix() + 6000000,
@@ -89,7 +83,7 @@ func Oauth(ctx *gin.Context) {
 		tool.RespInternalError(ctx)
 		return
 	}
-	tool.RespSuccessfulWithTwoData(ctx, user, s)
+	tool.RespSuccessfulWithTwoData(ctx, GitHubName, s)
 	return
 
 }

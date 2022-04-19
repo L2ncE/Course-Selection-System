@@ -1,11 +1,9 @@
 package service
 
 import (
-	"CSA/dao"
 	"CSA/model"
 	"encoding/json"
 	"fmt"
-	"gorm.io/gorm"
 	"net/http"
 )
 
@@ -71,22 +69,4 @@ func GetUserInfo(token *model.Token) (map[string]interface{}, error) {
 		return nil, err
 	}
 	return userInfo, nil
-}
-
-func RegisterGitHub(user model.GitHubUser) error {
-	err := dao.InsertGitHub(user)
-	return err
-}
-
-func IsRepeatGitHubName(username string) (bool, error) {
-	_, err := dao.SelectGitHubByNickName(username)
-	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return false, nil
-		}
-
-		return false, err
-	}
-
-	return true, nil
 }
