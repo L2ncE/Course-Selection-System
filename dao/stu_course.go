@@ -7,6 +7,7 @@ import (
 )
 
 func InsertStuCourse(course model.StuCourse, credit float64) error {
+	stu := model.Student{}
 	err := db.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Select("StudentNum", "TCourseNum", "Time").Create(&model.StuCourse{StudentNum: course.StudentNum, TCourseNum: course.TCourseNum, Time: course.Time}).Error; err != nil {
 			return err
@@ -16,6 +17,13 @@ func InsertStuCourse(course model.StuCourse, credit float64) error {
 		}
 		if err := tx.Model(&model.Student{}).Where("id = ?", course.StudentNum).Update("Credit", gorm.Expr("Credit + ?", credit)).Error; err != nil {
 			return err
+		}
+		if err := tx.Model(&model.Student{}).Select("Credit").Where("id = ?", course.StudentNum).Find(&stu).Error; err != nil {
+			return err
+		}
+		fmt.Println(stu.Credit)
+		if stu.Credit >= 28 {
+			tx.Rollback()
 		}
 		return nil
 	})
