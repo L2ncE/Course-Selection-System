@@ -8,7 +8,7 @@ import (
 
 func InsertStuCourse(course model.StuCourse) error {
 	err := db.Transaction(func(tx *gorm.DB) error {
-		if err := tx.Select("StudentNum", "TCourseNum").Create(&model.StuCourse{StudentNum: course.StudentNum, TCourseNum: course.TCourseNum}).Error; err != nil {
+		if err := tx.Select("StudentNum", "TCourseNum", "Time").Create(&model.StuCourse{StudentNum: course.StudentNum, TCourseNum: course.TCourseNum, Time: course.Time}).Error; err != nil {
 			return err
 		}
 		if err := tx.Model(&model.TCourse{}).Where("id = ?", course.TCourseNum).Update("Num", gorm.Expr("Num + 1")).Error; err != nil {

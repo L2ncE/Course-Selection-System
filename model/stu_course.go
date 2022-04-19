@@ -5,6 +5,7 @@ type StuCourse struct {
 	StudentNum int `gorm:"column:StudentNum"`
 	TCourseNum int `gorm:"column:TCourseNum"`
 	Grade      int
+	Time       string
 }
 
 type StuTwoT struct {

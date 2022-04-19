@@ -14,11 +14,19 @@ func registerStuCourse(ctx *gin.Context) {
 	studentNum := IStudentNum.(int)
 
 	SCourseNum := ctx.Param("course_num")
+	TCourseNum, _ := strconv.Atoi(SCourseNum)
+	time := service.GetTCourseTimeById(TCourseNum)
+	flag := service.IsRepeatTime(time)
+
+	if flag {
+		tool.RespErrorWithData(ctx, "选课冲突")
+		return
+	}
 
 	if SCourseNum != "" {
-		TCourseNum, _ := strconv.Atoi(SCourseNum)
 
 		course := model.StuCourse{
+			Time:       time,
 			StudentNum: studentNum,
 			TCourseNum: TCourseNum,
 		}
