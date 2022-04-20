@@ -60,3 +60,11 @@ func SelectCreditByCourseNum(id int) float64 {
 	db.Model(&model.Course{}).Select("Credit").Where("Id = ?", id).Find(&course)
 	return course.Credit
 }
+
+func Search(str string) ([]model.SearchCourse, error) {
+	fmt.Print(str)
+	var Course []model.SearchCourse
+	dbRes := db.Where("Name LIKE ?", str).Preload("TCourse").Preload("TCourse.TeacherInfo").Find(&Course)
+	err := dbRes.Error
+	return Course, err
+}

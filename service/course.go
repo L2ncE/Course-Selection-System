@@ -34,3 +34,8 @@ func GetCreditById(id int) float64 {
 	credit := dao.SelectCreditByCourseNum(id)
 	return credit
 }
+
+func GetSearch(str string) ([]model.SearchCourse, error) {
+	course, err := dao.Search(str)
+	return course, err
+}
