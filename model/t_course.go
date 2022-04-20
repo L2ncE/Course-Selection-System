@@ -18,6 +18,20 @@ type TCourseInfo struct {
 	TeacherInfo TeacherInfo2 `gorm:"foreignKey:Id;references:TeacherNum"`
 }
 
+type SearchTCourse struct {
+	Id          int
+	CourseNum   int `gorm:"column:CourseNum"`
+	TeacherNum  int `gorm:"column:TeacherNum"`
+	Time        string
+	Num         int
+	Total       int
+	TeacherInfo TeacherInfo2 `gorm:"foreignKey:Id;references:TeacherNum"`
+}
+
 func (TCourseInfo) TableName() string {
+	return "t_course"
+}
+
+func (SearchTCourse) TableName() string {
 	return "t_course"
 }
