@@ -70,3 +70,13 @@ func SelectStudentNumByStuCourseId(id int) int {
 	db.Model(&model.StuCourse{}).Select("StudentNum").Where("Id = ?", id).Find(&course)
 	return course.StudentNum
 }
+
+func UpdateGrade(id int, newGrade string) error {
+	deRes := db.Model(&model.StuCourse{}).Where("Id = ?", id).Update("Grade", newGrade)
+	err := deRes.Error
+	if err != nil {
+		fmt.Printf("update failed, err:%v\n", err)
+		return err
+	}
+	return err
+}

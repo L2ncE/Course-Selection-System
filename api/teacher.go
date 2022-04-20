@@ -194,3 +194,18 @@ func searchStudentInfoByTCourseNum(ctx *gin.Context) {
 	res, _ := service.GetStudentInfoByTCourseNum(id)
 	tool.RespSuccessfulWithData(ctx, res)
 }
+
+func changeGrade(ctx *gin.Context) {
+	if JudgeTeacher(ctx) == false {
+		return
+	}
+	Sid := ctx.Param("id")
+	id, _ := strconv.Atoi(Sid)
+	grade := ctx.PostForm("newGrade")
+	err := service.ChangeGrade(id, grade)
+	if err != nil {
+		tool.RespErrorWithData(ctx, "更新失败")
+		return
+	}
+	tool.RespSuccessful(ctx)
+}

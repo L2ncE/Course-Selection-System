@@ -34,3 +34,8 @@ func GetCourseNumById(id int) int {
 	CourseNum := dao.SelectCourseNumById(id)
 	return CourseNum
 }
+
+func ChangeGrade(id int, newGrade string) error {
+	err := dao.UpdateGrade(id, newGrade)
+	return err
+}
