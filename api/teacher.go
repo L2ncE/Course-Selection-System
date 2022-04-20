@@ -202,6 +202,11 @@ func changeGrade(ctx *gin.Context) {
 	Sid := ctx.Param("id")
 	id, _ := strconv.Atoi(Sid)
 	grade := ctx.PostForm("newGrade")
+	IGrade, _ := strconv.Atoi(grade)
+	if IGrade < 0 || IGrade > 100 {
+		tool.RespErrorWithData(ctx, "请在0-100之间打分")
+		return
+	}
 	err := service.ChangeGrade(id, grade)
 	if err != nil {
 		tool.RespErrorWithData(ctx, "更新失败")
