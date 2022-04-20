@@ -38,6 +38,7 @@ func InitEngine() {
 			teacherGroup.Use(JWTAuth)                                      //需要token
 			teacherGroup.PUT("/password", changeTPassword)                 //修改密码
 			teacherGroup.GET("/course/:id", searchStudentInfoByTCourseNum) //得到老师自己课程的学生详情
+			teacherGroup.PUT("/grade/:id", changeGrade)                    //改成绩
 		}
 	}
 
