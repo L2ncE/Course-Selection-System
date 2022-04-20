@@ -12,6 +12,7 @@ func InitEngine() {
 	engine.GET("/major", searchMajor)      //得到专业ID NAME 对照表
 	engine.GET("/course", getAllCourse)    //得到所有课程
 	engine.GET("/t_course", getAllTCourse) //得到所有老师课程
+	engine.POST("/search", search)         //搜索课程
 
 	engine.POST("/oauth", Oauth) //GitHub第三方登录
 
