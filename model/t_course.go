@@ -1,12 +1,14 @@
 package model
 
 type TCourse struct {
-	Id         int
-	CourseNum  int `gorm:"column:CourseNum"`
-	TeacherNum int `gorm:"column:TeacherNum"`
-	Time       string
-	Num        int
-	Total      int
+	Id          int
+	CourseNum   int `gorm:"column:CourseNum"`
+	TeacherNum  int `gorm:"column:TeacherNum"`
+	Time        string
+	Num         int
+	Total       int
+	CourseInfo  Course       `gorm:"foreignKey:Id;references:CourseNum"`
+	TeacherInfo TeacherInfo2 `gorm:"foreignKey:Id;references:TeacherNum"`
 }
 
 type TCourseInfo struct {
