@@ -56,6 +56,82 @@
 
 17. 部署在云服务器上(使用**DOCKER**)
 
+## 一些功能的具体实现说明
+
+这个部分将一些功能的实现进行说明
+
+### OAuth2
+
+由于没有前端，所以这个GitHub第三方并不方便进行测试
+
+为了便于展示，我写了一个十分简单的HTML文件
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="https://github.com/login/oauth/authorize?client_id=4f0872202e5c46597131&redirect_uri=http://42.192.155.29:8081/oauth">Github 第三方授权登录</a>
+</body>
+</html>
+```
+
+上面的重定向URL即我部署在服务器的这个接口的URL
+
+
+
+点击进去的效果
+
+![QQ图片20220421162622.png](https://s2.loli.net/2022/04/21/quwn3OPVmovC6HU.png)
+
+进行认证之后所有信息后端都可以拿到，但是想要进行下一步操作需要有前端同学一起进行，详细可以看接口文档，这里就不多赘述了
+
+### Docker
+
+这次使用了docker进行项目部署
+
+```dockerfile
+#从最新的GOLANG镜像开始
+FROM golang:latest
+
+MAINTAINER YXH
+
+#地址
+RUN mkdir -p /app/CSA
+WORKDIR /app/CSA
+COPY . /app/CSA
+
+#改个代理
+ENV GO111MODULE=on
+ENV GOPROXY="https://goproxy.cn"
+RUN go mod download #下载所有依赖
+
+RUN go build main.go
+
+#使用这个端口
+EXPOSE 8081
+
+#运行的命令
+ENTRYPOINT  ["./main"]
+```
+
+在服务器终端进行镜像生成
+
+```shell
+docker image build -t csa -f /app/CSA/csa.dockerfile .
+```
+
+可以在Goland上使用Docker插件，绑定服务器之间进行容器创建
+
+![image-20220421163728246](https://s2.loli.net/2022/04/21/9r8iQxIXtCswyGj.png)
+
+设置对外端口后即可进行使用，并且可以看到日志
+
+![image-20220421163850739](https://s2.loli.net/2022/04/21/Csm3dA9SHQTPtca.png)
+
 ## 数据库
 
 ### 管理员表
@@ -180,82 +256,6 @@ CREATE TABLE `teacher`
   DEFAULT CHARSET = utf8mb4
 ```
 
-## 一些功能的具体实现说明
-
-这个部分将一些功能的实现进行说明
-
-### OAuth2
-
-由于没有前端，所以这个GitHub第三方并不方便进行测试
-
-为了便于展示，我写了一个十分简单的HTML文件
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<a href="https://github.com/login/oauth/authorize?client_id=4f0872202e5c46597131&redirect_uri=http://42.192.155.29:8081/oauth">Github 第三方授权登录</a>
-</body>
-</html>
-```
-
-上面的重定向URL即我部署在服务器的这个接口的URL
-
-
-
-点击进去的效果
-
-![QQ图片20220421162622.png](https://s2.loli.net/2022/04/21/quwn3OPVmovC6HU.png)
-
-进行认证之后所有信息后端都可以拿到，但是想要进行下一步操作需要有前端同学一起进行，详细可以看接口文档，这里就不多赘述了
-
-### Docker
-
-这次使用了docker进行项目部署
-
-```dockerfile
-#从最新的GOLANG镜像开始
-FROM golang:latest
-
-MAINTAINER YXH
-
-#地址
-RUN mkdir -p /app/CSA
-WORKDIR /app/CSA
-COPY . /app/CSA
-
-#改个代理
-ENV GO111MODULE=on
-ENV GOPROXY="https://goproxy.cn"
-RUN go mod download #下载所有依赖
-
-RUN go build main.go
-
-#使用这个端口
-EXPOSE 8081
-
-#运行的命令
-ENTRYPOINT  ["./main"]
-```
-
-在服务器终端进行镜像生成
-
-```shell
-docker image build -t csa -f /app/CSA/csa.dockerfile .
-```
-
-可以在Goland上使用Docker插件，绑定服务器之间进行容器创建
-
-![image-20220421163728246](https://s2.loli.net/2022/04/21/9r8iQxIXtCswyGj.png)
-
-设置对外端口后即可进行使用，并且可以看到日志
-
-![image-20220421163850739](https://s2.loli.net/2022/04/21/Csm3dA9SHQTPtca.png)
-
 ## 更新日志
 
 ###### 进度 2022/4/2
@@ -324,7 +324,7 @@ PS.发现这样并不是最优解，目前方案为姓名可以重复，但是�
 
 ###### 进度 2022/4/20
 
-实现老师打分，实现搜索课程功能，### 管理员表使用docker打包部署
+实现老师打分，实现搜索课程功能，管理员表使用docker打包部署
 
 ###### 进度 2022/4/21
 
