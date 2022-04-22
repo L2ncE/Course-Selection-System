@@ -56,7 +56,7 @@
 
 17. 部署在云服务器上(使用**DOCKER**)
 
-## 一些功能的具体实现说明
+## 一些功能的具体实现说明😎
 
 这个部分将一些功能的实现进行说明
 
@@ -132,7 +132,7 @@ docker image build -t csa -f /app/CSA/csa.dockerfile .
 
 ![image-20220421163850739](https://s2.loli.net/2022/04/21/Csm3dA9SHQTPtca.png)
 
-## 数据库
+## 数据库😉
 
 ### 管理员表
 
@@ -256,7 +256,7 @@ CREATE TABLE `teacher`
   DEFAULT CHARSET = utf8mb4
 ```
 
-## 更新日志
+## 更新日志😁
 
 ###### 进度 2022/4/2
 
