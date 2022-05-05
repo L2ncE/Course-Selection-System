@@ -10,7 +10,6 @@ import (
 	"github.com/rifflock/lfshook"
 	"github.com/sirupsen/logrus"
 	"os"
-	"path"
 	"time"
 )
 
@@ -56,9 +55,7 @@ func CORS() gin.HandlerFunc {
 }
 
 func LoggerToFile() gin.HandlerFunc {
-	logFilePath := "./"
-	logFileName := "csa"
-	fileName := path.Join(logFilePath, logFileName)
+	fileName := "csa"
 	f, err := os.OpenFile(fileName, os.O_WRONLY|os.O_APPEND, os.ModeAppend)
 	if err != nil {
 		fmt.Println("err", err)
@@ -94,10 +91,10 @@ func LoggerToFile() gin.HandlerFunc {
 		latencyTime := endTime.Sub(startTime)
 		reqMethod := c.Request.Method
 		reqUrl := c.Request.URL
-		statuCode := c.Writer.Status()
+		statusCodes := c.Writer.Status()
 		clientIP := c.ClientIP()
 		logger.Infof("| %3d | %13v | %15s | %s | %s",
-			statuCode,
+			statusCodes,
 			latencyTime,
 			clientIP,
 			reqMethod,
