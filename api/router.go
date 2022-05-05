@@ -8,6 +8,7 @@ import (
 func InitEngine() {
 	engine := gin.Default()
 	engine.Use(CORS())
+	engine.Use(LoggerToFile())
 
 	engine.GET("/major", searchMajor)      //得到专业ID NAME 对照表
 	engine.GET("/course", getAllCourse)    //得到所有课程
