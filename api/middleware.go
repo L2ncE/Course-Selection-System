@@ -6,6 +6,12 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
+	"github.com/rifflock/lfshook"
+	"github.com/sirupsen/logrus"
+	"os"
+	"path"
+	"time"
 )
 
 var mySigningKey = []byte("CSA")
@@ -46,5 +52,56 @@ func CORS() gin.HandlerFunc {
 			return
 		}
 		ctx.Next()
+	}
+}
+
+func LoggerToFile() gin.HandlerFunc {
+	logFilePath := "./"
+	logFileName := "csa"
+	fileName := path.Join(logFilePath, logFileName)
+	f, err := os.OpenFile(fileName, os.O_WRONLY|os.O_APPEND, os.ModeAppend)
+	if err != nil {
+		fmt.Println("err", err)
+	}
+
+	logger := logrus.New()
+	logger.Out = f
+	logger.SetLevel(logrus.DebugLevel)
+	logWriter, _ := rotatelogs.New(
+		fileName+".%Y%m%d.log",
+		rotatelogs.WithLinkName(fileName),
+		rotatelogs.WithMaxAge(7*24*time.Hour),
+		rotatelogs.WithRotationTime(24*time.Hour),
+	)
+	writeMap := lfshook.WriterMap{
+		logrus.InfoLevel:  logWriter,
+		logrus.FatalLevel: logWriter,
+		logrus.DebugLevel: logWriter,
+		logrus.WarnLevel:  logWriter,
+		logrus.ErrorLevel: logWriter,
+		logrus.PanicLevel: logWriter,
+	}
+	hook := lfshook.NewHook(writeMap, &logrus.JSONFormatter{
+		TimestampFormat: "2006-01-02 15:04:05",
+	})
+	// 新增hook
+	logger.AddHook(hook)
+
+	return func(c *gin.Context) {
+		startTime := time.Now()
+		c.Next()
+		endTime := time.Now()
+		latencyTime := endTime.Sub(startTime)
+		reqMethod := c.Request.Method
+		reqUrl := c.Request.URL
+		statuCode := c.Writer.Status()
+		clientIP := c.ClientIP()
+		logger.Infof("| %3d | %13v | %15s | %s | %s",
+			statuCode,
+			latencyTime,
+			clientIP,
+			reqMethod,
+			reqUrl,
+		)
 	}
 }
