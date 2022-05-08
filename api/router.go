@@ -1,6 +1,7 @@
 package api
 
 import (
+	"CSA/global"
 	"fmt"
 	"github.com/gin-gonic/gin"
 )
@@ -73,8 +74,7 @@ func InitEngine() {
 		stuCourseGroup.POST("/register/:course_num", registerStuCourse) //新增注册学生课程
 		stuCourseGroup.DELETE("/:id", deleteStuCourse)                  //删除学生课程
 	}
-
-	err := engine.Run(":8081")
+	err := engine.Run(fmt.Sprintf(":%d", global.Settings.Port))
 	if err != nil {
 		fmt.Printf("init error:%v\n", err)
 		return

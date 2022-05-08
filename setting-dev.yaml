@@ -1,0 +1,10 @@
+# settings-dev.yaml
+name: "CSA"
+port: 8081
+
+gorm:
+  name: "CSAtest"
+  host: "1.14.43.76"
+  port: 3306
+  password: "yxh030714"
+  dbName: "csatest"

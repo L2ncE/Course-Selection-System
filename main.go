@@ -2,11 +2,13 @@ package main
 
 import (
 	"CSA/api"
+	"CSA/config"
 	"CSA/dao"
 	"fmt"
 )
 
 func main() {
+	config.InitConfig()
 	err := dao.InitGormDB()
 	if err != nil {
 		fmt.Printf("init redis failed, err:%v\n", err)
