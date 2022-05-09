@@ -4,16 +4,17 @@ import (
 	"CSA/api"
 	"CSA/config"
 	"CSA/dao"
+	"CSA/pprof"
 	"fmt"
 )
 
 func main() {
+	pprof.InitPprofMonitor()
 	config.InitConfig()
-	err := dao.InitGormDB()
-	if err != nil {
-		fmt.Printf("init redis failed, err:%v\n", err)
-	} else {
-		fmt.Println("连接GORM MySQL数据库成功!")
+	if err := dao.InitGormDB(); err != nil {
+		fmt.Printf("init gorm failed, err:%v\n", err)
+		return
 	}
+	fmt.Println("连接GORM MySQL数据库成功!")
 	api.InitEngine()
 }
